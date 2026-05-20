@@ -1,45 +1,57 @@
-# [Project name]
+# نظام تقييم الأداء السنوي
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A fully Arabic RTL employee annual evaluation web app with real-time scoring, dark mode, and PDF export.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/hr-evaluation run dev` — run the evaluation app (port 23056)
+- `pnpm --filter @workspace/api-server run dev` — run the API server (port 8080)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Frontend: React + Vite + Tailwind CSS
+- Fonts: Cairo / Tajawal (Google Fonts, Arabic)
+- Icons: Lucide React
+- Storage: localStorage (draft auto-save)
+- No backend needed — purely client-side
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/hr-evaluation/src/App.tsx` — main app with all state management
+- `artifacts/hr-evaluation/src/data/evaluationData.ts` — evaluation categories, criteria, score labels
+- `artifacts/hr-evaluation/src/components/` — all UI components
+- `artifacts/hr-evaluation/src/index.css` — theme (green/gold palette), RTL, dark mode, print styles
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Fully client-side: no backend or database required; all data stored in localStorage as draft
+- RTL enforced at the `body` level via `direction: rtl`
+- CSS custom properties power both light/dark themes with a single class toggle on `<html>`
+- Score computation is pure: weighted average across 6 categories → normalized to 0–100%
+- Print/PDF: `@media print` hides nav/sidebar, shows a clean print header
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+6 evaluation categories with weighted criteria (25% + 20% + 20% + 15% + 10% + 10%):
+- الأداء والنتائج — Performance & Results
+- الكفاءة المهنية — Professional Competence  
+- الجودة والسلامة — Quality & Safety
+- الالتزام والانضباط — Commitment & Discipline
+- التواصل والعمل الجماعي — Communication & Teamwork
+- الابتكار والتحسين — Innovation & Improvement
+
+Features: real-time score, score color coding, dark mode, progress bar, comments, signatures, print PDF.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Arabic RTL interface
+- Green (#142, 60%, 28%) and Gold (#45, 85%, 50%) corporate color scheme
+- Cairo/Tajawal Arabic fonts
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- Google Fonts `@import` must be the FIRST line in index.css (before Tailwind imports)
+- Dark mode class is toggled on `document.documentElement`, stored in localStorage

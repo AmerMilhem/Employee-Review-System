@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "نظام تقييم الموظفين السنوي"
+version = "1.0.0"
+id = "artifacts/hr-evaluation"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23056
+
+[services.development]
+run = "pnpm --filter @workspace/hr-evaluation run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/hr-evaluation", "run", "build" ]
+publicDir = "artifacts/hr-evaluation/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23056"
+BASE_PATH = "/"

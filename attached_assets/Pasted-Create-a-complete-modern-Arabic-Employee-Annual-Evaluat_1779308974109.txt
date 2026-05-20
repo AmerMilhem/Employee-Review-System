@@ -1,0 +1,104 @@
+Create a complete modern Arabic Employee Annual Evaluation Web App similar to a professional HR performance review portal.
+
+Requirements:
+
+* Use React + Tailwind CSS for the frontend.
+* Make the UI fully responsive, modern, clean, and professional.
+* The website language must be Arabic with RTL support.
+* Use green and gold corporate colors similar to enterprise HR systems.
+* Add smooth animations and interactive UI effects.
+* Include a fixed top navbar showing:
+
+  * System title
+  * Current calculated score percentage
+  * Print / Export PDF button
+
+Main Features:
+
+1. Employee Information Section
+
+* Employee full name
+* Department
+* Job title
+* Evaluator name
+* Evaluation year
+
+2. Dynamic Evaluation Sections
+   Create multiple evaluation categories with weighted percentages:
+
+* Performance & Results (25%)
+* Professional Competence (20%)
+* Quality & Safety (20%)
+* Commitment & Discipline (15%)
+* Communication & Teamwork (10%)
+* Innovation & Improvement (10%)
+
+Each category should contain multiple evaluation criteria.
+
+3. Scoring System
+
+* Use radio buttons from 1 to 5.
+* Selected score should animate and highlight.
+* Calculate weighted final score automatically in real time.
+* Display final percentage at the top.
+* Change score color dynamically:
+
+  * Green for excellent
+  * Yellow for good
+  * Orange for average
+  * Red for weak
+
+4. Comments & Recommendations
+   Add textarea fields for:
+
+* Strengths and achievements
+* Weaknesses and improvement areas
+* Manager recommendations
+
+5. Signatures Section
+   Include signature placeholders for:
+
+* Employee
+* Direct Manager
+* Department Manager
+* HR Department
+
+6. Export & Printing
+
+* Add a button to print the evaluation.
+* Optimize layout for PDF printing.
+* Hide unnecessary UI elements during printing.
+
+7. Technical Requirements
+
+* Use reusable React components.
+* Store evaluation data in state.
+* Use clean and organized folder structure.
+* Use modern UI/UX practices.
+* Add validation for required fields.
+* Add loading animations and transitions.
+
+8. Extra Features
+
+* Dark mode support
+* Progress bar for completion percentage
+* Save draft to localStorage
+* Ability to reset evaluation
+* Professional dashboard-like appearance
+
+Design Style:
+
+* Enterprise HR dashboard
+* Elegant cards with shadows
+* Rounded corners
+* Professional typography
+* Arabic font like Cairo or Tajawal
+* Clean spacing and modern layout
+
+Generate:
+
+* Full frontend code
+* Organized components
+* Ready-to-run project structure
+* Clean and maintainable code
+* Production-quality UI
