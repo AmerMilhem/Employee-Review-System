@@ -133,7 +133,7 @@ export default function App() {
         saved={saved}
       />
 
-      <main className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <main className="pt-36 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         {/* Page Title */}
         <div className="mb-8 text-center print-only">
           <h1 className="text-3xl font-black text-foreground">نموذج تقييم الأداء السنوي</h1>
