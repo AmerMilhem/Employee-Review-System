@@ -6,6 +6,7 @@ import CommentsSection from "./components/CommentsSection";
 import SignaturesSection from "./components/SignaturesSection";
 import ScoreBreakdownPanel from "./components/ScoreBreakdown";
 import ProgressBar from "./components/ProgressBar";
+import SendExportPanel from "./components/SendExportPanel";
 import { EVALUATION_CATEGORIES, INITIAL_EMPLOYEE_INFO, INITIAL_COMMENTS } from "./data/evaluationData";
 import type { EmployeeInfo, Scores, Comments, ScoreBreakdown } from "./types";
 
@@ -186,6 +187,15 @@ export default function App() {
 
             {/* Comments */}
             <CommentsSection comments={comments} onChange={setComments} />
+
+            {/* Send & Export */}
+            <SendExportPanel
+              employeeInfo={employeeInfo}
+              scores={scores}
+              comments={comments}
+              breakdown={breakdown}
+              totalScore={totalScore}
+            />
 
             {/* Signatures */}
             <SignaturesSection />
