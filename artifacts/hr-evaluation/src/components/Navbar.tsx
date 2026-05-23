@@ -31,126 +31,121 @@ export default function Navbar({ score, darkMode, onToggleDark, onPrint, onReset
   const scoreLabel = getScoreLabel(score);
 
   return (
-    <nav className="fixed top-0 inset-x-0 z-50 bg-card border-b border-border elevated-shadow print-hidden">
+    <nav className="fixed top-0 inset-x-0 z-50 elevated-shadow print-hidden bg-transparent">
 
       {/* ── Company Header ── */}
-      <div className="border-b border-border/60"
-        style={{ background: "linear-gradient(135deg, hsl(142,60%,24%) 0%, hsl(142,58%,30%) 60%, hsl(45,70%,35%) 100%)" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-center gap-4 sm:gap-8">
+      <div className="bg-white/85 dark:bg-card/85 backdrop-blur-md border-b border-border/60 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1 flex items-center justify-between gap-4">
 
-          {/* Arabic company name */}
-          <div className="text-right hidden sm:block">
-            <p className="text-white font-black text-sm sm:text-base leading-tight"
-              style={{ fontFamily: "'Cairo', sans-serif" }}>
-              شركة مصانع الزيوت النباتية الأردنية
-            </p>
-            <p className="text-white/80 font-semibold text-xs sm:text-sm leading-tight">
-              م.ع.م.
-            </p>
-          </div>
-
-          {/* Arabic name (mobile) */}
-          <div className="text-center sm:hidden">
-            <p className="text-white font-black text-xs leading-tight"
-              style={{ fontFamily: "'Cairo', sans-serif" }}>
-              مصانع الزيوت النباتية الأردنية
-            </p>
-          </div>
-
-          {/* Logo */}
-          <div className="shrink-0 flex items-center justify-center">
-            <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-full bg-white flex items-center justify-center p-1.5"
-              style={{ boxShadow: "0 2px 12px rgba(0,0,0,0.35)" }}>
-              <img
-                src={logo}
-                alt="شعار الشركة"
-                className="w-full h-full object-contain"
-              />
-            </div>
-          </div>
-
-          {/* English company name */}
-          <div className="text-left hidden sm:block">
-            <p className="text-white font-black text-sm sm:text-base leading-tight"
-              style={{ fontFamily: "'Cairo', sans-serif" }}>
-              Jordan Vegetable Oil
-            </p>
-            <p className="text-white/80 font-semibold text-xs sm:text-sm leading-tight">
-              Industries Co. Ltd
-            </p>
-          </div>
-
-        </div>
-      </div>
-
-      {/* ── Controls Bar ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14 gap-3">
-
-          {/* System title */}
+          {/* System title & Icon */}
           <div className="flex items-center gap-2 shrink-0">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center"
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center shadow-sm"
               style={{ background: "linear-gradient(135deg, hsl(142,60%,28%), hsl(45,85%,50%))" }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
                   stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <span className="text-sm font-bold text-foreground hidden sm:inline">تقييم الأداء السنوي</span>
+            <span className="text-sm font-black text-[#1c723b] hidden lg:inline">تقييم الأداء السنوي</span>
           </div>
 
-          {/* Score */}
-          <div className="flex items-center gap-2 bg-muted rounded-xl px-3 py-1.5 border border-border">
-            <span className="text-xs text-muted-foreground hidden sm:inline">النتيجة:</span>
-            <span className={`text-xl font-black ${scoreColor} transition-all duration-500`}>
-              {score.toFixed(1)}%
-            </span>
-            <span className={`text-xs font-semibold ${scoreColor} hidden sm:inline`}>{scoreLabel}</span>
+          {/* Center: Company Name & Logo */}
+          <div className="flex items-center justify-center gap-4 sm:gap-8 flex-1">
+            {/* Arabic company name */}
+            <div className="text-right hidden md:block">
+              <p className="text-[#1c723b] font-black text-xs sm:text-sm leading-tight"
+                style={{ fontFamily: "'Cairo', sans-serif" }}>
+                شركة مصانع الزيوت النباتية الأردنية م.ع.م.
+              </p>
+            </div>
+
+            {/* Logo */}
+            <div className="shrink-0 flex items-center justify-center">
+              <img src={logo} alt="شعار الشركة" className="w-14 h-14 sm:w-14 sm:h-14 object-contain" />
+            </div>
+
+            {/* English company name */}
+            <div className="text-left hidden md:block">
+              <p className="text-[#1c723b] font-black text-xs sm:text-sm leading-tight"
+                style={{ fontFamily: "'Cairo', sans-serif" }}>
+                Jordan Vegetable Oil Industries Co. Ltd
+              </p>
+            </div>
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Actions (Moved to Header Left) */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               onClick={onSave}
               title="حفظ المسودة"
-              className={`flex items-center gap-1 px-2.5 py-2 rounded-lg text-xs font-semibold transition-all border ${
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all border ${
                 saved
-                  ? "bg-green-100 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800"
-                  : "bg-muted text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground"
+                  ? "bg-green-100 text-green-700 border-green-200"
+                  : "bg-muted/50 text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground"
               }`}
             >
               <Save size={13} />
-              <span className="hidden sm:inline">{saved ? "تم الحفظ" : "حفظ"}</span>
+              <span className="hidden xl:inline">{saved ? "تم الحفظ" : "حفظ"}</span>
             </button>
 
             <button
               onClick={onReset}
               title="إعادة تعيين"
-              className="flex items-center gap-1 px-2.5 py-2 rounded-lg text-xs font-semibold bg-muted text-muted-foreground border border-border hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 transition-all"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-muted/50 text-muted-foreground border border-border hover:bg-destructive/10 hover:text-destructive transition-all"
             >
               <RotateCcw size={13} />
-              <span className="hidden sm:inline">إعادة</span>
+              <span className="hidden xl:inline">إعادة</span>
             </button>
 
             <button
               onClick={onPrint}
               title="طباعة / تصدير PDF"
-              className="flex items-center gap-1 px-2.5 py-2 rounded-lg text-xs font-semibold text-white border border-primary/20 transition-all"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold text-white border border-primary/20 transition-all"
               style={{ background: "linear-gradient(135deg, hsl(142,60%,28%), hsl(142,55%,38%))" }}
             >
               <Printer size={13} />
-              <span className="hidden sm:inline">طباعة</span>
+              <span className="hidden xl:inline">طباعة</span>
             </button>
 
             <button
               onClick={onToggleDark}
               title="تبديل الوضع"
-              className="w-8 h-8 flex items-center justify-center rounded-lg bg-muted text-muted-foreground border border-border hover:bg-accent hover:text-accent-foreground transition-all"
+              className="w-8 h-8 flex items-center justify-center rounded-lg bg-muted/50 text-muted-foreground border border-border hover:bg-accent transition-all"
             >
               {darkMode ? <Sun size={14} /> : <Moon size={14} />}
             </button>
           </div>
+        </div>
+      </div>
 
+      {/* ── Floating Score Badge ── */}
+      <div className="fixed bottom-8 left-8 z-[60] print-hidden">
+        <div className="bg-card/90 backdrop-blur-xl border border-border rounded-3xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.2)] flex flex-col items-center gap-1.5 transition-all duration-500 hover:scale-110 hover:-translate-y-2 group">
+          <div className="relative w-16 h-16">
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" className="text-muted/20" strokeWidth="10" />
+              <circle
+                cx="50" cy="50" r="42"
+                fill="none"
+                stroke="currentColor"
+                className={scoreColor}
+                strokeWidth="10"
+                strokeLinecap="round"
+                strokeDasharray="264"
+                strokeDashoffset={264 * (1 - score / 100)}
+                style={{ transition: "stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1)" }}
+              />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className={`text-xl font-black leading-none ${scoreColor}`}>{score.toFixed(0)}</span>
+              <span className="text-[10px] font-bold text-muted-foreground">%</span>
+            </div>
+          </div>
+          <div className="text-center">
+            <span className={`text-xs font-black ${scoreColor} block`}>
+              {scoreLabel}
+            </span>
+          </div>
         </div>
       </div>
     </nav>
