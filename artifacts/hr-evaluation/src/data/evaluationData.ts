@@ -84,7 +84,10 @@ export const INITIAL_EMPLOYEE_INFO = {
   department: "",
   jobTitle: "",
   evaluatorName: "",
-  year: new Date().getFullYear().toString(),
+  year: "2026",
+  month: "",
+  day: "",
+  hireYear: "",
 };
 
 export const INITIAL_COMMENTS = {

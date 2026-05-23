@@ -16,20 +16,22 @@ export function exportToExcel(
     ["نظام تقييم الأداء السنوي", "", "", ""],
     ["", "", "", ""],
     ["بيانات الموظف", "", "", ""],
-    ["الاسم الكامل", employeeInfo.name, "سنة التقييم", employeeInfo.year],
-    ["القسم / الإدارة", employeeInfo.department, "اسم المقيِّم", employeeInfo.evaluatorName],
-    ["المسمى الوظيفي", employeeInfo.jobTitle, "", ""],
+    ["اسم الموظف", employeeInfo.name, "تاريخ التقييم", `${employeeInfo.day || ""}/${employeeInfo.month || ""}/2026`],
+    ["الدائرة", employeeInfo.department, "المدير المباشر", employeeInfo.evaluatorName],
+    ["المسمى الوظيفي", employeeInfo.jobTitle, "سنة التعيين", employeeInfo.hireYear || "—"],
     ["", "", "", ""],
     ["النتيجة الإجمالية", `${totalScore.toFixed(1)}%`, "", ""],
     [
       "التقدير",
-      totalScore >= 85
+      totalScore >= 90
         ? "ممتاز"
-        : totalScore >= 70
+        : totalScore >= 80
           ? "جيد جداً"
-          : totalScore >= 50
+          : totalScore >= 70
             ? "جيد"
-            : "يحتاج تحسين",
+            : totalScore >= 60
+              ? "ضعيف"
+              : "يحتاج تحسين",
       "",
       "",
     ],

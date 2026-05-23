@@ -4,6 +4,9 @@ export interface EmployeeInfo {
   jobTitle: string;
   evaluatorName: string;
   year: string;
+  month: string;
+  day: string;
+  hireYear: string;
 }
 
 export interface Criterion {

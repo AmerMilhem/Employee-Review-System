@@ -1,14 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import Navbar from "./components/Navbar";
+import PrintHeader from "./components/PrintHeader";
 import EmployeeInfoSection from "./components/EmployeeInfo";
 import EvaluationSection from "./components/EvaluationSection";
 import CommentsSection from "./components/CommentsSection";
 import SignaturesSection from "./components/SignaturesSection";
+import SendExportPanel from "./components/SendExportPanel";
 import ScoreBreakdownPanel from "./components/ScoreBreakdown";
 import ProgressBar from "./components/ProgressBar";
-import SendExportPanel from "./components/SendExportPanel";
 import { EVALUATION_CATEGORIES, INITIAL_EMPLOYEE_INFO, INITIAL_COMMENTS } from "./data/evaluationData";
 import type { EmployeeInfo, Scores, Comments, ScoreBreakdown } from "./types";
+import { exportToPdf } from "./utils/exportPdf";
 
 const STORAGE_KEY = "hr_evaluation_draft";
 
@@ -55,9 +57,6 @@ function computeBreakdown(scores: Scores): { breakdown: ScoreBreakdown[]; totalS
 }
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem("dark_mode") === "true";
-  });
   const [saved, setSaved] = useState(false);
 
   const [employeeInfo, setEmployeeInfo] = useState<EmployeeInfo>(() => {
@@ -75,16 +74,6 @@ export default function App() {
     return draft?.comments ?? INITIAL_COMMENTS;
   });
 
-  // Apply dark mode
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-    localStorage.setItem("dark_mode", String(darkMode));
-  }, [darkMode]);
-
   // Auto-save every 30s
   useEffect(() => {
     const timer = setInterval(() => {
@@ -93,9 +82,12 @@ export default function App() {
     return () => clearInterval(timer);
   }, [employeeInfo, scores, comments]);
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async () => {
     saveDraft({ employeeInfo, scores, comments });
     setSaved(true);
+    const name = employeeInfo.name ? `_${employeeInfo.name}` : "";
+    const year = employeeInfo.year ? `_${employeeInfo.year}` : "";
+    await exportToPdf(`تقييم_الأداء${name}${year}.pdf`);
     setTimeout(() => setSaved(false), 3000);
   }, [employeeInfo, scores, comments]);
 
@@ -122,59 +114,39 @@ export default function App() {
   const answeredCriteria = Object.keys(scores).length;
 
   return (
-    <div className={`min-h-screen bg-background`}>
+    <div id="pdf-content" className={`min-h-screen bg-background`}>
       <Navbar
         score={totalScore}
-        darkMode={darkMode}
-        onToggleDark={() => setDarkMode((d) => !d)}
         onPrint={handlePrint}
         onReset={handleReset}
         onSave={handleSave}
         saved={saved}
       />
 
-      <main className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        {/* Page Title */}
-        <div className="mb-8 text-center print-only">
-          <h1 className="text-3xl font-black text-foreground">نموذج تقييم الأداء السنوي</h1>
-          <p className="text-muted-foreground mt-1">تقرير تقييم موظف - {employeeInfo.year}</p>
-        </div>
-
-        {/* Print header */}
-        <div className="print-only mb-6 p-4 rounded-xl border border-border bg-muted/30">
-          <div className="grid grid-cols-3 gap-4 text-sm">
-            <div><span className="font-bold">الموظف:</span> {employeeInfo.name || "—"}</div>
-            <div><span className="font-bold">القسم:</span> {employeeInfo.department || "—"}</div>
-            <div><span className="font-bold">المسمى:</span> {employeeInfo.jobTitle || "—"}</div>
-            <div><span className="font-bold">المقيِّم:</span> {employeeInfo.evaluatorName || "—"}</div>
-            <div><span className="font-bold">السنة:</span> {employeeInfo.year || "—"}</div>
-            <div><span className="font-bold">النتيجة:</span> <span className="font-black">{totalScore.toFixed(1)}%</span></div>
-          </div>
-        </div>
+      <main className="pt-[5.5rem] pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <PrintHeader employeeInfo={employeeInfo} totalScore={totalScore} />
 
         <div className="flex flex-col lg:flex-row gap-6 items-start">
-          {/* Left: main content */}
-          <div className="flex-1 min-w-0 flex flex-col gap-6">
-            {/* Employee Info */}
-            <EmployeeInfoSection info={employeeInfo} onChange={setEmployeeInfo} />
-
-            {/* Progress Bar */}
+          {/* Main content */}
+          <div className="flex-1 min-w-0 flex flex-col gap-5">
+            <div className="print-hidden">
+              <EmployeeInfoSection info={employeeInfo} onChange={setEmployeeInfo} />
+            </div>
             <ProgressBar completed={answeredCriteria} total={totalCriteria} />
 
-            {/* Divider with title */}
-            <div className="flex items-center gap-4">
-              <div className="flex-1 h-px bg-border" />
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card text-sm font-bold text-foreground shrink-0">
+            {/* Section divider */}
+            <div className="flex items-center gap-4 py-1">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+              <div className="flex items-center gap-2.5 px-4 py-2 rounded-full border border-border/70 bg-card shadow-sm text-sm font-extrabold text-foreground shrink-0">
                 <span>محاور التقييم</span>
-                <span className="text-xs px-2 py-0.5 rounded-full text-white"
-                  style={{ background: "hsl(142,60%,30%)" }}>
+                <span className="text-xs px-2.5 py-0.5 rounded-full text-white font-bold shadow-sm"
+                  style={{ background: "linear-gradient(135deg, hsl(142,65%,24%), hsl(142,55%,36%))" }}>
                   {EVALUATION_CATEGORIES.length} محاور
                 </span>
               </div>
-              <div className="flex-1 h-px bg-border" />
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
             </div>
 
-            {/* Evaluation Sections */}
             {EVALUATION_CATEGORIES.map((category, index) => (
               <EvaluationSection
                 key={category.id}
@@ -185,10 +157,8 @@ export default function App() {
               />
             ))}
 
-            {/* Comments */}
             <CommentsSection comments={comments} onChange={setComments} />
 
-            {/* Send & Export */}
             <SendExportPanel
               employeeInfo={employeeInfo}
               scores={scores}
@@ -197,18 +167,12 @@ export default function App() {
               totalScore={totalScore}
             />
 
-            {/* Signatures */}
             <SignaturesSection />
 
-            {/* Footer */}
-            <div className="text-center py-4 print-hidden">
-              <p className="text-xs text-muted-foreground">
-                نظام تقييم الأداء السنوي — جميع البيانات محفوظة محلياً على هذا الجهاز
-              </p>
-            </div>
+           
           </div>
 
-          {/* Right: Score breakdown sidebar */}
+          {/* Sidebar */}
           <div className="w-full lg:w-72 shrink-0 print-hidden">
             <ScoreBreakdownPanel breakdown={breakdown} totalScore={totalScore} />
           </div>

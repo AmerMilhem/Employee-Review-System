@@ -3,8 +3,7 @@ import { PenLine } from "lucide-react";
 const SIGNATORIES = [
   { key: "employee", label: "الموظف", subtitle: "توقيع الموظف المُقيَّم" },
   { key: "direct_manager", label: "المدير المباشر", subtitle: "توقيع المدير المباشر" },
-  { key: "dept_manager", label: "مدير القسم", subtitle: "توقيع مدير القسم / الإدارة" },
-  { key: "hr", label: "إدارة الموارد البشرية", subtitle: "توقيع مسؤول الموارد البشرية" },
+  { key: "dept_manager", label: "مدير الدائرة", subtitle: "توقيع مدير الدائرة / الإدارة" },
 ];
 
 export default function SignaturesSection() {
@@ -25,7 +24,7 @@ export default function SignaturesSection() {
       </div>
 
       <div className="p-6">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           {SIGNATORIES.map((sig) => (
             <div key={sig.key} className="flex flex-col items-center gap-3">
               <div className="w-full">
@@ -33,7 +32,7 @@ export default function SignaturesSection() {
                 <p className="text-xs text-center text-muted-foreground mb-4">{sig.subtitle}</p>
                 {/* Signature box */}
                 <div className="w-full h-20 rounded-xl border-2 border-dashed border-border bg-muted/30 flex items-center justify-center">
-                  <PenLine size={18} className="text-muted-foreground/40" />
+                  <PenLine size={18} className="text-muted-foreground/40 print-hidden" />
                 </div>
               </div>
               {/* Date line */}

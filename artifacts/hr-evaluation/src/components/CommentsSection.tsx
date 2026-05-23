@@ -11,27 +11,34 @@ interface TextAreaFieldProps {
   value: string;
   placeholder: string;
   icon: React.ReactNode;
-  iconBg: string;
+  accentColor: string;
   onChange: (val: string) => void;
 }
 
-function TextAreaField({ label, value, placeholder, icon, iconBg, onChange }: TextAreaFieldProps) {
+function TextAreaField({ label, value, placeholder, icon, accentColor, onChange }: TextAreaFieldProps) {
   return (
-    <div className="flex flex-col gap-2">
-      <label className="flex items-center gap-2 text-sm font-bold text-foreground">
-        <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-white`} style={{ background: iconBg }}>
+    <div className="flex flex-col gap-2 group">
+      <label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-widest">
+        <span
+          className="w-7 h-7 rounded-xl flex items-center justify-center text-white shadow-sm"
+          style={{ background: accentColor }}
+        >
           {icon}
         </span>
         {label}
       </label>
-      <textarea
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        rows={4}
-        className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all text-sm resize-none leading-relaxed"
-      />
-      <p className="text-xs text-muted-foreground text-left ltr">{value.length} حرف</p>
+      <div className="relative">
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          rows={4}
+          className="w-full px-4 py-3 rounded-2xl border-2 border-border bg-white/70 dark:bg-card/70 text-foreground font-medium placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:bg-white dark:focus:bg-card focus:shadow-[0_0_0_4px_hsl(142,62%,26%,0.1)] transition-all duration-200 text-sm resize-none leading-relaxed"
+        />
+      </div>
+      <p className="text-[10px] text-muted-foreground text-left font-medium tabular-nums">
+        {value.length} حرف
+      </p>
     </div>
   );
 }
@@ -40,17 +47,16 @@ export default function CommentsSection({ comments, onChange }: CommentsSectionP
   const update = (key: keyof Comments) => (val: string) => onChange({ ...comments, [key]: val });
 
   return (
-    <div className="bg-card border border-border rounded-2xl card-shadow overflow-hidden fade-in-up">
+    <div className="bg-card border border-border/60 rounded-3xl card-shadow overflow-hidden fade-in-up">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-border"
-        style={{ background: "linear-gradient(135deg, hsl(142,60%,28%) 0%, hsl(142,55%,35%) 100%)" }}>
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-            <Lightbulb size={20} className="text-white" />
+      <div className="section-header-gradient px-6 py-5">
+        <div className="flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center backdrop-blur-sm shadow-inner">
+            <Lightbulb size={21} className="text-white" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-white">التعليقات والتوصيات</h2>
-            <p className="text-white/70 text-xs">ملاحظات تفصيلية وتوصيات المدير</p>
+            <h2 className="text-base font-extrabold text-white tracking-wide">التعليقات والتوصيات</h2>
+            <p className="text-white/60 text-xs mt-0.5 font-medium">ملاحظات تفصيلية وتوصيات المدير</p>
           </div>
         </div>
       </div>
@@ -60,24 +66,24 @@ export default function CommentsSection({ comments, onChange }: CommentsSectionP
           label="نقاط القوة والإنجازات"
           value={comments.strengths}
           placeholder="اذكر أبرز نقاط قوة الموظف وإنجازاته خلال فترة التقييم..."
-          icon={<Star size={14} />}
-          iconBg="linear-gradient(135deg, hsl(142,60%,30%), hsl(142,55%,40%))"
+          icon={<Star size={13} />}
+          accentColor="linear-gradient(135deg, hsl(142,65%,26%), hsl(142,55%,38%))"
           onChange={update("strengths")}
         />
         <TextAreaField
-          label="نقاط الضعف ومجالات التحسين"
+          label="مجالات التحسين"
           value={comments.weaknesses}
           placeholder="حدد المجالات التي تحتاج إلى تطوير وتحسين..."
-          icon={<AlertTriangle size={14} />}
-          iconBg="linear-gradient(135deg, hsl(25,80%,45%), hsl(25,75%,55%))"
+          icon={<AlertTriangle size={13} />}
+          accentColor="linear-gradient(135deg, hsl(25,80%,42%), hsl(25,75%,54%))"
           onChange={update("weaknesses")}
         />
         <TextAreaField
           label="توصيات المدير"
           value={comments.recommendations}
           placeholder="اكتب توصياتك للموظف للفترة القادمة والخطة التطويرية..."
-          icon={<Lightbulb size={14} />}
-          iconBg="linear-gradient(135deg, hsl(45,85%,45%), hsl(45,80%,55%))"
+          icon={<Lightbulb size={13} />}
+          accentColor="linear-gradient(135deg, hsl(45,88%,40%), hsl(45,82%,54%))"
           onChange={update("recommendations")}
         />
       </div>
