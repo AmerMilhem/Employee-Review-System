@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import type { EvaluationCategory } from "../types";
 import { SCORE_LABELS } from "../data/evaluationData";
 
@@ -11,7 +11,7 @@ interface EvaluationSectionProps {
 }
 
 function getScoreStyle(score: number, selected: boolean) {
-  if (!selected) return "border-2 border-border bg-white/80 dark:bg-card/80 text-muted-foreground hover:border-primary/40 hover:bg-primary/5 hover:text-primary hover:scale-105";
+  if (!selected) return "border-2 border-border bg-white text-muted-foreground hover:border-primary/50 hover:bg-primary/5 hover:text-primary hover:scale-105";
   if (score === 5) return "border-2 border-green-500 bg-gradient-to-br from-green-500 to-emerald-500 text-white shadow-lg shadow-green-500/35 scale-110";
   if (score === 4) return "border-2 border-emerald-400 bg-gradient-to-br from-emerald-400 to-teal-400 text-white shadow-lg shadow-emerald-400/35 scale-110";
   if (score === 3) return "border-2 border-amber-400 bg-gradient-to-br from-amber-400 to-yellow-400 text-white shadow-lg shadow-amber-400/35 scale-110";
@@ -33,15 +33,14 @@ function getCategoryAvg(scores: Record<string, number>, criteria: { id: string }
   return vals.reduce((a, b) => a + b, 0) / vals.length;
 }
 
-function getAvgColor(avg: number) {
-  if (avg >= 4.5) return "text-green-500";
-  if (avg >= 3.5) return "text-emerald-500";
-  if (avg >= 2.5) return "text-amber-500";
-  if (avg >= 1.5) return "text-orange-500";
-  if (avg > 0) return "text-rose-500";
-  return "text-muted-foreground";
+function getAvgBadgeStyle(avg: number) {
+  if (avg >= 4.5) return "bg-green-100 text-green-700 border border-green-300";
+  if (avg >= 3.5) return "bg-emerald-100 text-emerald-700 border border-emerald-300";
+  if (avg >= 2.5) return "bg-amber-100 text-amber-700 border border-amber-300";
+  if (avg >= 1.5) return "bg-orange-100 text-orange-700 border border-orange-300";
+  if (avg > 0) return "bg-rose-100 text-rose-700 border border-rose-300";
+  return "bg-muted text-muted-foreground";
 }
-
 
 export default function EvaluationSection({ category, scores, onScore, index }: EvaluationSectionProps) {
   const [expanded, setExpanded] = useState(false);
@@ -56,81 +55,85 @@ export default function EvaluationSection({ category, scores, onScore, index }: 
       className="bg-card border border-border/60 rounded-3xl card-shadow overflow-hidden fade-in-up"
       style={{ animationDelay: `${index * 0.06}s` }}
     >
-      {/* Category Header */}
+      {/* Header */}
       <button
         onClick={() => setExpanded((e) => !e)}
-        className="w-full text-right px-5 py-4 flex items-center gap-4 hover:bg-muted/40 transition-colors duration-200 group"
+        className="w-full text-right section-header-gradient px-6 py-5 flex items-center gap-4 group transition-opacity duration-200 hover:opacity-95"
       >
         {/* Number badge */}
-        <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-green-600 to-emerald-500 flex items-center justify-center text-white font-extrabold text-sm shrink-0 shadow-md">
+        <div className="w-14 h-14 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center text-white font-extrabold text-xl shrink-0 shadow-inner backdrop-blur-sm">
           {index + 1}
         </div>
 
-        {/* Title & progress */}
+        {/* Title & meta */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between gap-3 mb-2">
-            <h3 className="text-sm font-extrabold text-foreground leading-tight">{category.title}</h3>
-            <div className="flex items-center gap-2.5 shrink-0">
-              <span className="text-xs px-2.5 py-1 rounded-full font-bold"
-                style={{ background: "hsl(var(--gold-light))", color: "hsl(45,85%,28%)" }}>
-                {category.weight}%
+          <h3 className="text-base font-extrabold text-white leading-snug mb-1">{category.title}</h3>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-white/20 text-white/90">
+              الوزن: {category.weight}%
+            </span>
+            <span className="text-xs text-white/70 font-medium">
+              {answered} / {total} معايير
+            </span>
+            {avg > 0 && (
+              <span className={`text-xs font-extrabold px-2.5 py-0.5 rounded-full ${getAvgBadgeStyle(avg)}`}>
+                متوسط: {avg.toFixed(1)} / 5
               </span>
-              {avg > 0 && (
-                <span className={`text-xs font-extrabold px-2 py-0.5 rounded-full bg-muted/60 ${getAvgColor(avg)}`}>
-                  {avg.toFixed(1)} / 5
-                </span>
-              )}
-            </div>
+            )}
+            {isComplete && (
+              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-white/25 text-white">
+                ✓ مكتمل
+              </span>
+            )}
           </div>
-
-          {/* Progress bar */}
-          <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
-            <div
-              className="h-full rounded-full transition-all duration-700 relative overflow-hidden"
-              style={{
-                width: `${pct}%`,
-                background: isComplete
-                  ? "linear-gradient(90deg, hsl(142,65%,30%), hsl(142,55%,44%))"
-                  : "linear-gradient(90deg, hsl(45,88%,46%), hsl(45,82%,58%))",
-              }}
-            >
-              {isComplete && (
-                <span className="absolute inset-0 shimmer" />
-              )}
-            </div>
-          </div>
-          <p className="text-xs text-muted-foreground mt-1.5 font-medium">
-            {answered} من {total} معايير مُقيَّمة
-            {isComplete && <span className="mr-1.5 text-green-600 font-bold">✓ مكتمل</span>}
-          </p>
         </div>
 
         {/* Chevron */}
-        <div className="text-muted-foreground/60 group-hover:text-muted-foreground shrink-0 transition-colors">
-          {expanded ? <ChevronUp size={17} /> : <ChevronDown size={17} />}
+        <div
+          className="w-9 h-9 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center shrink-0 transition-transform duration-300"
+          style={{ transform: expanded ? "rotate(180deg)" : "rotate(0deg)" }}
+        >
+          <ChevronDown size={18} className="text-white" />
         </div>
       </button>
 
+      {/* Progress bar */}
+      <div className="h-2 bg-muted">
+        <div
+          className="h-full transition-all duration-700 relative overflow-hidden"
+          style={{
+            width: `${pct}%`,
+            background: isComplete
+              ? "linear-gradient(90deg, hsl(142,65%,30%), hsl(142,55%,44%))"
+              : "linear-gradient(90deg, hsl(45,88%,46%), hsl(45,82%,58%))",
+          }}
+        >
+          {isComplete && <span className="absolute inset-0 shimmer" />}
+        </div>
+      </div>
+
       {/* Criteria list */}
       {expanded && (
-        <div className="border-t border-border/50">
+        <div>
           {category.criteria.map((criterion, ci) => {
             const selected = scores[criterion.id] || 0;
             const isEven = ci % 2 === 0;
             return (
               <div
                 key={criterion.id}
-                className={`px-5 py-4 ${ci < category.criteria.length - 1 ? "border-b border-border/40" : ""} ${isEven ? "bg-transparent" : "bg-muted/25"} hover:bg-primary/5 transition-colors duration-150`}
+                className={`px-6 py-5 ${ci < category.criteria.length - 1 ? "border-b border-border/40" : ""} ${isEven ? "bg-transparent" : "bg-muted/20"} hover:bg-primary/5 transition-colors duration-150`}
               >
-                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                   {/* Criterion label */}
-                  <div className="flex items-start gap-2 flex-1 min-w-0">
-                    <span className="text-muted-foreground/50 text-xs font-bold mt-0.5 shrink-0 w-5 text-left">{ci + 1}.</span>
-                    <p className="text-sm font-medium text-foreground leading-relaxed">{criterion.label}</p>
+                  <div className="flex items-start gap-3 flex-1 min-w-0">
+                    <span className="w-7 h-7 rounded-xl bg-primary/10 text-primary text-xs font-extrabold flex items-center justify-center shrink-0 mt-0.5">
+                      {ci + 1}
+                    </span>
+                    <p className="text-sm font-semibold text-foreground leading-relaxed">{criterion.label}</p>
                   </div>
 
                   {/* Score buttons */}
-                  <div className="flex items-center gap-1.5 shrink-0 mr-auto sm:mr-0">
+                  <div className="flex items-center gap-2 shrink-0 mr-auto sm:mr-0">
                     {[1, 2, 3, 4, 5].map((score) => {
                       const isSelected = selected === score;
                       return (
@@ -138,7 +141,7 @@ export default function EvaluationSection({ category, scores, onScore, index }: 
                           key={score}
                           onClick={() => onScore(criterion.id, score)}
                           title={SCORE_LABELS[score]}
-                          className={`w-10 h-10 rounded-2xl font-extrabold text-sm transition-all duration-200 ${getScoreStyle(score, isSelected)}`}
+                          className={`w-11 h-11 rounded-2xl font-extrabold text-base transition-all duration-200 ${getScoreStyle(score, isSelected)}`}
                         >
                           {score}
                         </button>
@@ -149,9 +152,9 @@ export default function EvaluationSection({ category, scores, onScore, index }: 
 
                 {/* Score label chip */}
                 {selected > 0 && (
-                  <div className="mt-2 flex justify-end">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full bg-muted/60">
-                      <span className={`w-1.5 h-1.5 rounded-full ${getScoreDotColor(selected)}`} />
+                  <div className="mt-3 flex justify-end">
+                    <span className="inline-flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full bg-muted/70">
+                      <span className={`w-2 h-2 rounded-full ${getScoreDotColor(selected)}`} />
                       {SCORE_LABELS[selected]}
                     </span>
                   </div>
