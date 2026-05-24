@@ -112,7 +112,7 @@ function HireDatePicker({ value, onChange }: HireDatePickerProps) {
             <Calendar size={15} className="shrink-0 text-muted-foreground" />
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-5 rounded-2xl shadow-xl border border-border/60" align="start">
+        <PopoverContent className="w-auto p-5 rounded-2xl shadow-xl border-0" align="start">
           <CalendarPicker
             mode="single"
             selected={selected}
