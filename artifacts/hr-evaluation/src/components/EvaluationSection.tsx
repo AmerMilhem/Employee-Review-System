@@ -52,7 +52,7 @@ const CATEGORY_GRADIENTS = [
 ];
 
 export default function EvaluationSection({ category, scores, onScore, index }: EvaluationSectionProps) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const avg = getCategoryAvg(scores, category.criteria);
   const answered = category.criteria.filter((c) => scores[c.id]).length;
   const total = category.criteria.length;
