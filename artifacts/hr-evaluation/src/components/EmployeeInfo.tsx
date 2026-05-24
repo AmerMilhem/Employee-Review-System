@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { User, Building2, Briefcase, UserCheck, Calendar, CalendarClock, ChevronDown, Check } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as CalendarPicker } from "@/components/ui/calendar";
 import type { EmployeeInfo } from "../types";
 
 interface EmployeeInfoProps {
@@ -65,6 +67,65 @@ function Field({ label, value, icon, placeholder, onChange, type = "text" }: Fie
         placeholder={placeholder}
         className="w-full px-4 py-3 rounded-2xl border-2 border-border bg-white/70 text-foreground font-medium placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:bg-white focus:shadow-[0_0_0_4px_hsl(142,62%,26%,0.1)] transition-all duration-200 text-sm"
       />
+    </div>
+  );
+}
+
+interface HireDatePickerProps {
+  value: string;
+  onChange: (val: string) => void;
+}
+
+function HireDatePicker({ value, onChange }: HireDatePickerProps) {
+  const [open, setOpen] = useState(false);
+
+  const selected = value ? new Date(value) : undefined;
+
+  const displayValue = selected && !isNaN(selected.getTime())
+    ? selected.toLocaleDateString("ar-SA", { day: "numeric", month: "long", year: "numeric" })
+    : value || "";
+
+  return (
+    <div className="flex flex-col gap-1.5 group">
+      <label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-widest">
+        <span className="text-primary/80 group-focus-within:text-primary transition-colors">
+          <CalendarClock size={13} />
+        </span>
+        تاريخ التعيين
+      </label>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <button
+            type="button"
+            className="w-full px-4 py-3 rounded-2xl border-2 text-sm font-medium text-right flex items-center justify-between gap-2 transition-all duration-200"
+            style={{
+              borderColor: open ? "hsl(142,62%,26%)" : "hsl(var(--border))",
+              background: open ? "white" : "rgba(255,255,255,0.7)",
+              boxShadow: open ? "0 0 0 4px hsl(142,62%,26%,0.1)" : "none",
+            }}
+          >
+            <span className={displayValue ? "text-foreground font-semibold" : "text-muted-foreground/50"}>
+              {displayValue || "اختر تاريخ التعيين"}
+            </span>
+            <Calendar size={15} className="shrink-0 text-muted-foreground" />
+          </button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <CalendarPicker
+            mode="single"
+            selected={selected}
+            onSelect={(date) => {
+              if (date) {
+                onChange(date.toISOString().split("T")[0]);
+                setOpen(false);
+              }
+            }}
+            captionLayout="dropdown"
+            startMonth={new Date(1980, 0)}
+            endMonth={new Date()}
+          />
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }
@@ -224,14 +285,7 @@ export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProp
           onChange={update("evaluatorName")}
         />
 
-        <Field
-          label="تاريخ التعيين"
-          value={info.hireYear}
-          icon={<CalendarClock size={13} />}
-          placeholder="مثال: 2018"
-          onChange={update("hireYear")}
-          type="number"
-        />
+        <HireDatePicker value={info.hireYear} onChange={update("hireYear")} />
 
         {/* تاريخ التقييم */}
         <div className="flex flex-col gap-1.5 group">
