@@ -51,7 +51,7 @@ function getDaysInMonth(month: string): number {
 }
 
 const selectClass =
-  "px-3 py-3 rounded-2xl border-2 border-border bg-white/70 text-foreground font-medium focus:outline-none focus:border-primary focus:bg-white focus:shadow-[0_0_0_4px_hsl(142,62%,26%,0.1)] transition-all duration-200 text-sm appearance-none cursor-pointer";
+  "px-3 py-3 rounded-2xl border-2 border-border bg-white/70 text-foreground font-medium focus:outline-none focus:border-primary focus:bg-white focus:shadow-[0_0_0_4px_hsl(142,62%,26%,0.1)] transition-all duration-200 text-sm appearance-none cursor-pointer hover:border-primary/40 hover:bg-primary/5 hover:shadow-md hover:-translate-y-0.5";
 
 function Field({ label, value, icon, placeholder, onChange, type = "text" }: FieldProps) {
   return (
@@ -65,7 +65,7 @@ function Field({ label, value, icon, placeholder, onChange, type = "text" }: Fie
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-4 py-3 rounded-2xl border-2 border-border bg-white/70 text-foreground font-medium placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:bg-white focus:shadow-[0_0_0_4px_hsl(142,62%,26%,0.1)] transition-all duration-200 text-sm"
+        className="w-full px-4 py-3 rounded-2xl border-2 border-border bg-white/70 text-foreground font-medium placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:bg-white focus:shadow-[0_0_0_4px_hsl(142,62%,26%,0.1)] transition-all duration-200 text-sm hover:border-primary/40 hover:bg-primary/[0.02] hover:shadow-sm"
       />
     </div>
   );
@@ -97,7 +97,7 @@ function HireDatePicker({ value, onChange }: HireDatePickerProps) {
         <PopoverTrigger asChild>
           <button
             type="button"
-            className="w-full px-4 py-3 rounded-2xl border-2 text-sm font-medium text-right flex items-center justify-between gap-2 transition-all duration-200"
+            className="w-full px-4 py-3 rounded-2xl border-2 text-sm font-medium text-right flex items-center justify-between gap-2 transition-all duration-200 hover:border-primary/40 hover:bg-primary/5 hover:shadow-sm hover:-translate-y-0.5"
             style={{
               borderColor: open ? "hsl(142,62%,26%)" : "hsl(var(--border))",
               background: open ? "white" : "rgba(255,255,255,0.7)",
@@ -162,7 +162,7 @@ function DepartmentDropdown({ value, onChange }: DepartmentDropdownProps) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="w-full px-4 py-3 rounded-2xl border-2 text-sm font-medium text-right flex items-center justify-between gap-2 transition-all duration-200"
+        className="w-full px-4 py-3 rounded-2xl border-2 text-sm font-medium text-right flex items-center justify-between gap-2 transition-all duration-200 hover:border-primary/40 hover:bg-primary/5 hover:shadow-sm hover:-translate-y-0.5"
         style={{
           borderColor: open ? "hsl(142,62%,26%)" : "hsl(var(--border))",
           background: open ? "white" : "rgba(255,255,255,0.7)",
@@ -289,9 +289,9 @@ export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProp
 
         {/* تاريخ التقييم */}
         <div className="flex flex-col gap-1.5 group">
-          <label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-widest">
-            <span className="text-primary/80"><Calendar size={13} /></span>
-            التاريخ
+          <label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-widest group-hover:text-primary transition-colors duration-200">
+            <span className="text-primary/80 group-hover:scale-110 transition-transform"><Calendar size={13} /></span>
+            تاريخ التقييم
           </label>
           <div className="flex items-center gap-2">
             <select
@@ -317,7 +317,7 @@ export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProp
             </select>
 
             <div
-              className="shrink-0 px-4 py-3 rounded-2xl font-extrabold text-sm text-white shadow-sm"
+              className="shrink-0 px-4 py-3 rounded-2xl font-extrabold text-sm text-white shadow-sm transition-all duration-200 hover:scale-105 hover:shadow-md cursor-default"
               style={{ background: "linear-gradient(135deg, hsl(142,65%,24%), hsl(142,55%,36%))" }}
             >
               2026
