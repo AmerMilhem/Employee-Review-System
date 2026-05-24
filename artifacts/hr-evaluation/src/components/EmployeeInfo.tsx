@@ -28,19 +28,19 @@ const DEPARTMENTS = [
   "الإدارة",
 ];
 
-const ARABIC_MONTHS = [
-  { value: "01", label: "يناير" },
-  { value: "02", label: "فبراير" },
-  { value: "03", label: "مارس" },
-  { value: "04", label: "أبريل" },
-  { value: "05", label: "مايو" },
-  { value: "06", label: "يونيو" },
-  { value: "07", label: "يوليو" },
-  { value: "08", label: "أغسطس" },
-  { value: "09", label: "سبتمبر" },
-  { value: "10", label: "أكتوبر" },
-  { value: "11", label: "نوفمبر" },
-  { value: "12", label: "ديسمبر" },
+const ENGLISH_MONTHS = [
+  { value: "01", label: "January" },
+  { value: "02", label: "February" },
+  { value: "03", label: "March" },
+  { value: "04", label: "April" },
+  { value: "05", label: "May" },
+  { value: "06", label: "June" },
+  { value: "07", label: "July" },
+  { value: "08", label: "August" },
+  { value: "09", label: "September" },
+  { value: "10", label: "October" },
+  { value: "11", label: "November" },
+  { value: "12", label: "December" },
 ];
 
 function getDaysInMonth(month: string): number {
@@ -76,15 +76,13 @@ interface HireDatePickerProps {
   onChange: (val: string) => void;
 }
 
-const WEEKDAY_AR = ["أح", "اث", "ثل", "أر", "خم", "جم", "سب"];
-
 function HireDatePicker({ value, onChange }: HireDatePickerProps) {
   const [open, setOpen] = useState(false);
 
   const selected = value ? new Date(value) : undefined;
 
   const displayValue = selected && !isNaN(selected.getTime())
-    ? selected.toLocaleDateString("ar-SA", { day: "numeric", month: "long", year: "numeric" })
+    ? selected.toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })
     : value || "";
 
   return (
@@ -107,7 +105,7 @@ function HireDatePicker({ value, onChange }: HireDatePickerProps) {
             }}
           >
             <span className={displayValue ? "text-foreground font-semibold" : "text-muted-foreground/50"}>
-              {displayValue || "اختر تاريخ التعيين"}
+              {displayValue || "Select Hire Date"}
             </span>
             <Calendar size={15} className="shrink-0 text-muted-foreground" />
           </button>
@@ -125,31 +123,6 @@ function HireDatePicker({ value, onChange }: HireDatePickerProps) {
             captionLayout="label"
             startMonth={new Date(1980, 0)}
             endMonth={new Date()}
-            formatters={{
-              formatWeekdayName: (date) => WEEKDAY_AR[date.getDay()],
-              formatCaption: (date) =>
-                date.toLocaleDateString("ar-SA", { month: "long", year: "numeric" }),
-            }}
-            classNames={{
-              months: "relative",
-              month_caption:
-                "flex items-center h-9 w-full px-1 pb-3 mb-1 border-b border-border/40",
-              caption_label: "text-sm font-bold text-foreground flex-1",
-              nav: "absolute left-1 top-0 h-9 flex items-center gap-0.5",
-              button_previous:
-                "w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors",
-              button_next:
-                "w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors",
-              weekdays: "flex mt-2",
-              weekday:
-                "flex-1 text-center text-xs font-semibold text-muted-foreground py-1.5",
-              weeks: "mt-1",
-              week: "flex",
-              day: "flex-1 flex items-center justify-center py-0.5",
-              today: "font-extrabold text-primary",
-              outside: "opacity-25",
-              disabled: "opacity-30",
-            }}
           />
         </PopoverContent>
       </Popover>
@@ -326,8 +299,8 @@ export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProp
               onChange={(e) => handleMonthChange(e.target.value)}
               className={`flex-1 ${selectClass}`}
             >
-              <option value="" disabled>الشهر</option>
-              {ARABIC_MONTHS.map((o) => (
+              <option value="" disabled>Month</option>
+              {ENGLISH_MONTHS.map((o) => (
                 <option key={o.value} value={o.value}>{o.label}</option>
               ))}
             </select>
@@ -337,7 +310,7 @@ export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProp
               onChange={(e) => update("day")(e.target.value)}
               className={`w-20 text-center ${selectClass}`}
             >
-              <option value="" disabled>يوم</option>
+              <option value="" disabled>Day</option>
               {dayOptions.map((o) => (
                 <option key={o.value} value={o.value}>{o.label}</option>
               ))}
