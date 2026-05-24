@@ -42,14 +42,6 @@ function getAvgColor(avg: number) {
   return "text-muted-foreground";
 }
 
-const CATEGORY_GRADIENTS = [
-  "from-green-600 to-emerald-500",
-  "from-teal-600 to-green-500",
-  "from-emerald-600 to-teal-500",
-  "from-amber-500 to-yellow-500",
-  "from-lime-600 to-green-500",
-  "from-yellow-500 to-amber-400",
-];
 
 export default function EvaluationSection({ category, scores, onScore, index }: EvaluationSectionProps) {
   const [expanded, setExpanded] = useState(false);
@@ -70,7 +62,7 @@ export default function EvaluationSection({ category, scores, onScore, index }: 
         className="w-full text-right px-5 py-4 flex items-center gap-4 hover:bg-muted/40 transition-colors duration-200 group"
       >
         {/* Number badge */}
-        <div className={`w-11 h-11 rounded-2xl bg-gradient-to-br ${CATEGORY_GRADIENTS[index % CATEGORY_GRADIENTS.length]} flex items-center justify-center text-white font-extrabold text-sm shrink-0 shadow-md`}>
+        <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-green-600 to-emerald-500 flex items-center justify-center text-white font-extrabold text-sm shrink-0 shadow-md">
           {index + 1}
         </div>
 
