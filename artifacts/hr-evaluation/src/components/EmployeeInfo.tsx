@@ -112,7 +112,7 @@ function HireDatePicker({ value, onChange }: HireDatePickerProps) {
             <Calendar size={15} className="shrink-0 text-muted-foreground" />
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-5 rounded-2xl shadow-xl border-0" align="start">
+        <PopoverContent className="w-auto p-4 rounded-2xl shadow-xl border-0" align="start">
           <CalendarPicker
             mode="single"
             selected={selected}
@@ -122,7 +122,7 @@ function HireDatePicker({ value, onChange }: HireDatePickerProps) {
                 setOpen(false);
               }
             }}
-            captionLayout="dropdown"
+            captionLayout="label"
             startMonth={new Date(1980, 0)}
             endMonth={new Date()}
             formatters={{
@@ -131,18 +131,23 @@ function HireDatePicker({ value, onChange }: HireDatePickerProps) {
                 date.toLocaleDateString("ar-SA", { month: "long", year: "numeric" }),
             }}
             classNames={{
-              root: "w-full",
-              month_caption: "flex items-center justify-between mb-3 px-1",
-              caption_label: "text-base font-bold text-foreground",
-              nav: "flex items-center gap-1",
+              months: "relative",
+              month_caption:
+                "flex items-center h-9 w-full px-1 pb-3 mb-1 border-b border-border/40",
+              caption_label: "text-sm font-bold text-foreground flex-1",
+              nav: "absolute left-1 top-0 h-9 flex items-center gap-0.5",
               button_previous:
-                "w-8 h-8 rounded-xl flex items-center justify-center text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors",
+                "w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors",
               button_next:
-                "w-8 h-8 rounded-xl flex items-center justify-center text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors",
-              weekday: "text-center text-xs font-bold text-muted-foreground w-9 pb-2",
-              day: "flex items-center justify-center w-9 h-9",
+                "w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors",
+              weekdays: "flex mt-2",
+              weekday:
+                "flex-1 text-center text-xs font-semibold text-muted-foreground py-1.5",
+              weeks: "mt-1",
+              week: "flex",
+              day: "flex-1 flex items-center justify-center py-0.5",
               today: "font-extrabold text-primary",
-              outside: "text-muted-foreground/30",
+              outside: "opacity-25",
               disabled: "opacity-30",
             }}
           />
