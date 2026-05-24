@@ -76,6 +76,8 @@ interface HireDatePickerProps {
   onChange: (val: string) => void;
 }
 
+const WEEKDAY_AR = ["أح", "اث", "ثل", "أر", "خم", "جم", "سب"];
+
 function HireDatePicker({ value, onChange }: HireDatePickerProps) {
   const [open, setOpen] = useState(false);
 
@@ -110,7 +112,7 @@ function HireDatePicker({ value, onChange }: HireDatePickerProps) {
             <Calendar size={15} className="shrink-0 text-muted-foreground" />
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent className="w-auto p-5 rounded-2xl shadow-xl border border-border/60" align="start">
           <CalendarPicker
             mode="single"
             selected={selected}
@@ -120,9 +122,29 @@ function HireDatePicker({ value, onChange }: HireDatePickerProps) {
                 setOpen(false);
               }
             }}
-            captionLayout="dropdown"
+            captionLayout="label"
             startMonth={new Date(1980, 0)}
             endMonth={new Date()}
+            formatters={{
+              formatWeekdayName: (date) => WEEKDAY_AR[date.getDay()],
+              formatCaption: (date) =>
+                date.toLocaleDateString("ar-SA", { month: "long", year: "numeric" }),
+            }}
+            classNames={{
+              root: "w-full",
+              month_caption: "flex items-center justify-between mb-3 px-1",
+              caption_label: "text-base font-bold text-foreground",
+              nav: "flex items-center gap-1",
+              button_previous:
+                "w-8 h-8 rounded-xl flex items-center justify-center text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors",
+              button_next:
+                "w-8 h-8 rounded-xl flex items-center justify-center text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors",
+              weekday: "text-center text-xs font-bold text-muted-foreground w-9 pb-2",
+              day: "flex items-center justify-center w-9 h-9",
+              today: "font-extrabold text-primary",
+              outside: "text-muted-foreground/30",
+              disabled: "opacity-30",
+            }}
           />
         </PopoverContent>
       </Popover>
