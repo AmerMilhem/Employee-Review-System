@@ -122,7 +122,7 @@ function HireDatePicker({ value, onChange }: HireDatePickerProps) {
                 setOpen(false);
               }
             }}
-            captionLayout="label"
+            captionLayout="dropdown"
             startMonth={new Date(1980, 0)}
             endMonth={new Date()}
             formatters={{
