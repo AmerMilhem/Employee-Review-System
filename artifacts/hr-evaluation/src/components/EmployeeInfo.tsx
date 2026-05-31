@@ -243,7 +243,7 @@ export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProp
           icon={<Briefcase size={13} />}
           placeholder="يُملأ تلقائياً عند اختيار الموظف"
           onChange={update("jobTitle")}
-          readOnly={!!info.employeeId}
+          readOnly={true}
         />
 
         <Field
@@ -252,10 +252,10 @@ export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProp
           icon={<UserCheck size={13} />}
           placeholder="يُملأ تلقائياً عند اختيار الموظف"
           onChange={update("evaluatorName")}
-          readOnly={!!info.employeeId}
+          readOnly={true}
         />
 
-        <HireDatePicker value={info.hireYear} onChange={update("hireYear")} disabled={!!info.employeeId} />
+        <HireDatePicker value={info.hireYear} onChange={update("hireYear")} disabled={true} />
 
         {/* Evaluation Date */}
         <div className="flex flex-col gap-1.5 group">

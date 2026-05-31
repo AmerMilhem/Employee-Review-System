@@ -83,15 +83,17 @@ export const SCORE_LABELS: Record<number, string> = {
   10: "استثنائي",
 };
 
+const _today = new Date();
+
 export const INITIAL_EMPLOYEE_INFO = {
   employeeId: "",
   name: "",
   department: "",
   jobTitle: "",
   evaluatorName: "",
-  year: "2026",
-  month: "",
-  day: "",
+  year: String(_today.getFullYear()),
+  month: String(_today.getMonth() + 1).padStart(2, "0"),
+  day: String(_today.getDate()).padStart(2, "0"),
   hireYear: "",
 };
 
