@@ -12,18 +12,18 @@ interface EvaluationSectionProps {
 
 function getScoreStyle(score: number, selected: boolean) {
   if (!selected) return "border-2 border-border bg-white text-muted-foreground hover:border-primary/50 hover:bg-primary/5 hover:text-primary hover:scale-105";
-  if (score === 5) return "border-2 border-green-500 bg-gradient-to-br from-green-500 to-emerald-500 text-white shadow-lg shadow-green-500/35 scale-110";
-  if (score === 4) return "border-2 border-emerald-400 bg-gradient-to-br from-emerald-400 to-teal-400 text-white shadow-lg shadow-emerald-400/35 scale-110";
-  if (score === 3) return "border-2 border-amber-400 bg-gradient-to-br from-amber-400 to-yellow-400 text-white shadow-lg shadow-amber-400/35 scale-110";
-  if (score === 2) return "border-2 border-orange-400 bg-gradient-to-br from-orange-400 to-amber-500 text-white shadow-lg shadow-orange-400/35 scale-110";
+  if (score >= 9) return "border-2 border-green-500 bg-gradient-to-br from-green-500 to-emerald-500 text-white shadow-lg shadow-green-500/35 scale-110";
+  if (score >= 7) return "border-2 border-emerald-400 bg-gradient-to-br from-emerald-400 to-teal-400 text-white shadow-lg shadow-emerald-400/35 scale-110";
+  if (score >= 5) return "border-2 border-amber-400 bg-gradient-to-br from-amber-400 to-yellow-400 text-white shadow-lg shadow-amber-400/35 scale-110";
+  if (score >= 3) return "border-2 border-orange-400 bg-gradient-to-br from-orange-400 to-amber-500 text-white shadow-lg shadow-orange-400/35 scale-110";
   return "border-2 border-rose-500 bg-gradient-to-br from-rose-500 to-red-500 text-white shadow-lg shadow-rose-500/35 scale-110";
 }
 
 function getScoreDotColor(score: number) {
-  if (score === 5) return "bg-green-500";
-  if (score === 4) return "bg-emerald-400";
-  if (score === 3) return "bg-amber-400";
-  if (score === 2) return "bg-orange-400";
+  if (score >= 9) return "bg-green-500";
+  if (score >= 7) return "bg-emerald-400";
+  if (score >= 5) return "bg-amber-400";
+  if (score >= 3) return "bg-orange-400";
   return "bg-rose-500";
 }
 
@@ -34,10 +34,10 @@ function getCategoryAvg(scores: Record<string, number>, criteria: { id: string }
 }
 
 function getAvgBadgeStyle(avg: number) {
-  if (avg >= 4.5) return "bg-green-100 text-green-700 border border-green-300";
-  if (avg >= 3.5) return "bg-emerald-100 text-emerald-700 border border-emerald-300";
-  if (avg >= 2.5) return "bg-amber-100 text-amber-700 border border-amber-300";
-  if (avg >= 1.5) return "bg-orange-100 text-orange-700 border border-orange-300";
+  if (avg >= 9) return "bg-green-100 text-green-700 border border-green-300";
+  if (avg >= 7) return "bg-emerald-100 text-emerald-700 border border-emerald-300";
+  if (avg >= 5) return "bg-amber-100 text-amber-700 border border-amber-300";
+  if (avg >= 3) return "bg-orange-100 text-orange-700 border border-orange-300";
   if (avg > 0) return "bg-rose-100 text-rose-700 border border-rose-300";
   return "bg-muted text-muted-foreground";
 }
@@ -77,7 +77,7 @@ export default function EvaluationSection({ category, scores, onScore, index }: 
             </span>
             {avg > 0 && (
               <span className={`text-xs font-extrabold px-2.5 py-0.5 rounded-full ${getAvgBadgeStyle(avg)}`}>
-                متوسط: {avg.toFixed(1)} / 5
+                متوسط: {avg.toFixed(1)} / 10
               </span>
             )}
             {isComplete && (
@@ -133,15 +133,15 @@ export default function EvaluationSection({ category, scores, onScore, index }: 
                   </div>
 
                   {/* Score buttons */}
-                  <div className="flex items-center gap-2 shrink-0 mr-auto sm:mr-0">
-                    {[1, 2, 3, 4, 5].map((score) => {
+                  <div className="flex items-center gap-1.5 shrink-0 mr-auto sm:mr-0 flex-wrap justify-end">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((score) => {
                       const isSelected = selected === score;
                       return (
                         <button
                           key={score}
                           onClick={() => onScore(criterion.id, score)}
                           title={SCORE_LABELS[score]}
-                          className={`w-11 h-11 rounded-2xl font-extrabold text-base transition-all duration-200 ${getScoreStyle(score, isSelected)}`}
+                          className={`w-9 h-9 rounded-xl font-extrabold text-sm transition-all duration-200 ${getScoreStyle(score, isSelected)}`}
                         >
                           {score}
                         </button>

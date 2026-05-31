@@ -42,7 +42,7 @@ function computeBreakdown(scores: Scores): { breakdown: ScoreBreakdown[]; totalS
   const breakdown: ScoreBreakdown[] = EVALUATION_CATEGORIES.map((cat) => {
     const vals = cat.criteria.map((c) => scores[c.id] || 0).filter((v) => v > 0);
     const rawAvg = vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
-    const weightedScore = (rawAvg / 5) * cat.weight;
+    const weightedScore = (rawAvg / 10) * cat.weight;
     return { categoryId: cat.id, title: cat.title, weight: cat.weight, rawAvg, weightedScore };
   });
 

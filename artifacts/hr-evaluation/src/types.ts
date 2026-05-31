@@ -1,4 +1,5 @@
 export interface EmployeeInfo {
+  employeeId: string;
   name: string;
   department: string;
   jobTitle: string;

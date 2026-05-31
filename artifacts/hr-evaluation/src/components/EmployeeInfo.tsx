@@ -1,8 +1,16 @@
-import { useState, useRef, useEffect } from "react";
-import { User, Building2, Briefcase, UserCheck, Calendar, CalendarClock, ChevronDown, Check } from "lucide-react";
+import { useState } from "react";
+import { User, Building2, Briefcase, UserCheck, Calendar, CalendarClock } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar as CalendarPicker } from "@/components/ui/calendar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { EmployeeInfo } from "../types";
+import { employees, departments } from "../data/employees";
 
 interface EmployeeInfoProps {
   info: EmployeeInfo;
@@ -15,18 +23,8 @@ interface FieldProps {
   icon: React.ReactNode;
   placeholder: string;
   onChange: (val: string) => void;
-  type?: string;
+  readOnly?: boolean;
 }
-
-const DEPARTMENTS = [
-  "الإنتاج",
-  "المستودعات",
-  "المالية",
-  "المبيعات",
-  "الشؤون الإدارية والموارد البشرية",
-  "الجودة",
-  "الإدارة",
-];
 
 const ENGLISH_MONTHS = [
   { value: "01", label: "January" },
@@ -43,6 +41,14 @@ const ENGLISH_MONTHS = [
   { value: "12", label: "December" },
 ];
 
+function parseMDY(dateStr: string): string {
+  if (!dateStr || dateStr === "غير محدد") return "";
+  const parts = dateStr.split("/");
+  if (parts.length !== 3) return "";
+  const [month, day, year] = parts;
+  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+}
+
 function getDaysInMonth(month: string): number {
   if (!month) return 31;
   const m = parseInt(month, 10);
@@ -53,7 +59,7 @@ function getDaysInMonth(month: string): number {
 const selectClass =
   "px-3 py-3 rounded-2xl border-2 border-border bg-white/70 text-foreground font-medium focus:outline-none focus:border-primary focus:bg-white focus:shadow-[0_0_0_4px_hsl(142,62%,26%,0.1)] transition-all duration-200 text-sm appearance-none cursor-pointer hover:border-primary/40 hover:bg-primary/5 hover:shadow-md hover:-translate-y-0.5";
 
-function Field({ label, value, icon, placeholder, onChange, type = "text" }: FieldProps) {
+function Field({ label, value, icon, placeholder, onChange, readOnly = false }: FieldProps) {
   return (
     <div className="flex flex-col gap-1.5 group">
       <label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-widest">
@@ -61,11 +67,12 @@ function Field({ label, value, icon, placeholder, onChange, type = "text" }: Fie
         {label}
       </label>
       <input
-        type={type}
+        type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-4 py-3 rounded-2xl border-2 border-border bg-white/70 text-foreground font-medium placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:bg-white focus:shadow-[0_0_0_4px_hsl(142,62%,26%,0.1)] transition-all duration-200 text-sm hover:border-primary/40 hover:bg-primary/[0.02] hover:shadow-sm"
+        readOnly={readOnly}
+        className={`w-full px-4 py-3 rounded-2xl border-2 border-border bg-white/70 text-foreground font-medium placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:bg-white focus:shadow-[0_0_0_4px_hsl(142,62%,26%,0.1)] transition-all duration-200 text-sm hover:border-primary/40 hover:bg-primary/[0.02] hover:shadow-sm${readOnly ? " cursor-default opacity-80" : ""}`}
       />
     </div>
   );
@@ -81,9 +88,10 @@ function HireDatePicker({ value, onChange }: HireDatePickerProps) {
 
   const selected = value ? new Date(value) : undefined;
 
-  const displayValue = selected && !isNaN(selected.getTime())
-    ? selected.toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })
-    : value || "";
+  const displayValue =
+    selected && !isNaN(selected.getTime())
+      ? selected.toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })
+      : value || "";
 
   return (
     <div className="flex flex-col gap-1.5 group">
@@ -130,106 +138,28 @@ function HireDatePicker({ value, onChange }: HireDatePickerProps) {
   );
 }
 
-interface DepartmentDropdownProps {
-  value: string;
-  onChange: (val: string) => void;
-}
-
-function DepartmentDropdown({ value, onChange }: DepartmentDropdownProps) {
-  const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState<string | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  return (
-    <div className="flex flex-col gap-1.5 group relative" style={{ zIndex: open ? 50 : "auto" }} ref={containerRef}>
-      <label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-widest">
-        <span className="transition-colors duration-200" style={{ color: open ? "hsl(142,62%,26%)" : undefined }}>
-          <Building2 size={13} />
-        </span>
-        الدائرة
-      </label>
-
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        className="w-full px-4 py-3 rounded-2xl border-2 text-sm font-medium text-right flex items-center justify-between gap-2 transition-all duration-200 hover:border-primary/40 hover:bg-primary/5 hover:shadow-sm hover:-translate-y-0.5"
-        style={{
-          borderColor: open ? "hsl(142,62%,26%)" : "hsl(var(--border))",
-          background: open ? "white" : "rgba(255,255,255,0.7)",
-          boxShadow: open ? "0 0 0 4px hsl(142,62%,26%,0.1)" : "none",
-        }}
-      >
-        <span className={value ? "text-foreground font-semibold" : "text-muted-foreground/50"}>
-          {value || "اختر الدائرة"}
-        </span>
-        <ChevronDown
-          size={16}
-          className="shrink-0 text-muted-foreground transition-transform duration-300"
-          style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
-        />
-      </button>
-
-      {open && (
-        <div
-          style={{
-            position: "absolute",
-            top: "calc(100% + 6px)",
-            right: 0,
-            left: 0,
-            zIndex: 9999,
-            borderRadius: "16px",
-            border: "1px solid hsl(var(--border))",
-            background: "white",
-            boxShadow: "0 8px 32px hsl(142,62%,20%,0.15), 0 2px 8px hsl(0,0%,0%,0.08)",
-            animation: "dropdownIn 0.18s cubic-bezier(0.16,1,0.3,1)",
-            overflow: "hidden",
-          }}
-        >
-          {DEPARTMENTS.map((dept, i) => {
-            const isSelected = value === dept;
-            const isHov = hovered === dept;
-            return (
-              <button
-                key={dept}
-                type="button"
-                onClick={() => { onChange(dept); setOpen(false); }}
-                onMouseEnter={() => setHovered(dept)}
-                onMouseLeave={() => setHovered(null)}
-                className="w-full px-4 py-3 text-sm text-right flex items-center justify-between gap-2 transition-all duration-150 font-medium"
-                style={{
-                  background: isSelected
-                    ? "linear-gradient(135deg, hsl(142,62%,26%,0.10), hsl(142,55%,36%,0.07))"
-                    : isHov
-                    ? "hsl(142,62%,26%,0.06)"
-                    : "transparent",
-                  color: isSelected ? "hsl(142,62%,22%)" : "hsl(0,0%,12%)",
-                  borderBottom: i < DEPARTMENTS.length - 1 ? "1px solid hsl(0,0%,93%)" : "none",
-                }}
-              >
-                <span>{dept}</span>
-                {isSelected && <Check size={14} style={{ color: "hsl(142,62%,26%)", flexShrink: 0 }} />}
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
+const triggerBase =
+  "w-full h-auto px-4 py-3 rounded-2xl border-2 border-border bg-white text-sm font-medium text-right flex-row-reverse justify-between transition-all duration-200 hover:border-primary/40 hover:bg-primary/5 hover:shadow-sm data-[state=open]:border-primary data-[state=open]:bg-white data-[state=open]:shadow-[0_0_0_4px_hsl(142,62%,26%,0.1)]";
 
 export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProps) {
   const update = (key: keyof EmployeeInfo) => (val: string) =>
     onChange({ ...info, [key]: val });
+
+  const handleDepartmentChange = (dept: string) => {
+    onChange({ ...info, department: dept, employeeId: "", name: "", jobTitle: "" });
+  };
+
+  const handleEmployeeChange = (empId: string) => {
+    const emp = employees.find((e) => e.id === empId);
+    if (emp) {
+      const hireYear = parseMDY(emp.hireDate);
+      onChange({ ...info, employeeId: emp.id, name: emp.name, jobTitle: emp.jobTitle, department: emp.department, evaluatorName: emp.directManager, hireYear });
+    }
+  };
+
+  const filteredEmployees = info.department
+    ? employees.filter((e) => e.department === info.department)
+    : [];
 
   const daysInMonth = getDaysInMonth(info.month);
   const dayOptions = Array.from({ length: daysInMonth }, (_, i) => {
@@ -260,23 +190,60 @@ export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProp
 
       {/* Fields */}
       <div className="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        <Field
-          label="اسم الموظف"
-          value={info.name}
-          icon={<User size={13} />}
-          placeholder="أدخل اسم الموظف"
-          onChange={update("name")}
-        />
 
-        <DepartmentDropdown value={info.department} onChange={update("department")} />
+        {/* Employee Name Select — first */}
+        <div className="flex flex-col gap-1.5 group">
+          <label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-widest">
+            <span className="text-primary/80 transition-colors"><User size={13} /></span>
+            اسم الموظف
+          </label>
+          <Select
+            value={info.employeeId || ""}
+            onValueChange={handleEmployeeChange}
+            disabled={!info.department}
+          >
+            <SelectTrigger className={`${triggerBase} disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-border disabled:hover:bg-white/70 disabled:hover:shadow-none`}>
+              <SelectValue placeholder={info.department ? "اختر الموظف" : "اختر القسم أولاً"} />
+            </SelectTrigger>
+            <SelectContent className="rounded-2xl border border-border shadow-[0_8px_32px_hsl(142,62%,20%,0.15),0_2px_8px_hsl(0,0%,0%,0.08)] max-h-64 overflow-y-auto z-[9999]" dir="rtl">
+              {filteredEmployees.map((emp) => (
+                <SelectItem key={emp.id} value={emp.id} className="text-sm font-medium cursor-pointer">
+                  {emp.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Department Select — second */}
+        <div className="flex flex-col gap-1.5 group">
+          <label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-widest">
+            <span className="text-primary/80 transition-colors"><Building2 size={13} /></span>
+            القسم
+          </label>
+          <Select value={info.department} onValueChange={handleDepartmentChange}>
+            <SelectTrigger className={triggerBase}>
+              <SelectValue placeholder="اختر القسم" />
+            </SelectTrigger>
+            <SelectContent className="rounded-2xl border border-border shadow-[0_8px_32px_hsl(142,62%,20%,0.15),0_2px_8px_hsl(0,0%,0%,0.08)] z-[9999] !bg-white" dir="rtl">
+              {departments.map((dept) => (
+                <SelectItem key={dept} value={dept} className="text-sm font-medium cursor-pointer">
+                  {dept}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
         <Field
           label="المسمى الوظيفي"
           value={info.jobTitle}
           icon={<Briefcase size={13} />}
-          placeholder="مثال: مهندس برمجيات أول"
+          placeholder="يُملأ تلقائياً عند اختيار الموظف"
           onChange={update("jobTitle")}
+          readOnly={!!info.employeeId}
         />
+
         <Field
           label="المدير المباشر"
           value={info.evaluatorName}
@@ -287,7 +254,7 @@ export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProp
 
         <HireDatePicker value={info.hireYear} onChange={update("hireYear")} />
 
-        {/* تاريخ التقييم */}
+        {/* Evaluation Date */}
         <div className="flex flex-col gap-1.5 group">
           <label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-widest group-hover:text-primary transition-colors duration-200">
             <span className="text-primary/80 group-hover:scale-110 transition-transform"><Calendar size={13} /></span>
