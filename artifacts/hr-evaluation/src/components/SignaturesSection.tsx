@@ -23,22 +23,22 @@ export default function SignaturesSection() {
         </div>
       </div>
 
-      <div className="p-6">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      <div className="p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {SIGNATORIES.map((sig) => (
-            <div key={sig.key} className="flex flex-col items-center gap-3">
+            <div key={sig.key} className="flex flex-col items-center gap-2">
               <div className="w-full">
-                <p className="text-sm font-bold text-center text-foreground mb-1">{sig.label}</p>
-                <p className="text-xs text-center text-muted-foreground mb-4">{sig.subtitle}</p>
+                <p className="text-xs font-bold text-center text-foreground mb-0.5">{sig.label}</p>
+                <p className="text-xs text-center text-muted-foreground mb-2">{sig.subtitle}</p>
                 {/* Signature box */}
-                <div className="w-full h-20 rounded-xl border-2 border-dashed border-border bg-muted/30 flex items-center justify-center">
-                  <PenLine size={18} className="text-muted-foreground/40 print-hidden" />
+                <div className="w-full h-12 rounded-xl border-2 border-dashed border-border bg-muted/30 flex items-center justify-center">
+                  <PenLine size={14} className="text-muted-foreground/40 print-hidden" />
                 </div>
               </div>
               {/* Date line */}
               <div className="w-full">
-                <p className="text-xs text-muted-foreground text-center mb-1">التاريخ</p>
-                <div className="w-full h-8 rounded-lg border border-dashed border-border bg-muted/20 flex items-center justify-center">
+                <p className="text-xs text-muted-foreground text-center mb-0.5">التاريخ</p>
+                <div className="w-full h-6 rounded-lg border border-dashed border-border bg-muted/20 flex items-center justify-center">
                   <span className="text-xs text-muted-foreground/60">_ _ / _ _ / _ _ _ _</span>
                 </div>
               </div>
@@ -47,7 +47,7 @@ export default function SignaturesSection() {
         </div>
 
         {/* Note */}
-        <div className="mt-6 p-4 rounded-xl bg-muted/50 border border-border">
+        <div className="mt-4 p-3 rounded-xl bg-muted/50 border border-border">
           <p className="text-xs text-muted-foreground text-center leading-relaxed">
             بالتوقيع أدناه، يُقرّ جميع الأطراف بأن هذا التقييم قد تم مراجعته ومناقشته وأنه يعكس بدقة أداء الموظف خلال فترة التقييم المذكورة.
           </p>

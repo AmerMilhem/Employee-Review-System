@@ -8,6 +8,7 @@ interface EvaluationSectionProps {
   scores: Record<string, number>;
   onScore: (criterionId: string, score: number) => void;
   index: number;
+  pageBreakBefore?: boolean;
 }
 
 function getScoreStyle(score: number, selected: boolean) {
@@ -42,7 +43,7 @@ function getAvgBadgeStyle(avg: number) {
   return "bg-muted text-muted-foreground";
 }
 
-export default function EvaluationSection({ category, scores, onScore, index }: EvaluationSectionProps) {
+export default function EvaluationSection({ category, scores, onScore, index, pageBreakBefore }: EvaluationSectionProps) {
   const [expanded, setExpanded] = useState(false);
   const avg = getCategoryAvg(scores, category.criteria);
   const answered = category.criteria.filter((c) => scores[c.id]).length;
@@ -53,7 +54,7 @@ export default function EvaluationSection({ category, scores, onScore, index }: 
   return (
     <div
       className="bg-card border border-border/60 rounded-3xl card-shadow overflow-hidden fade-in-up"
-      style={{ animationDelay: `${index * 0.06}s` }}
+      style={{ animationDelay: `${index * 0.06}s`, breakBefore: pageBreakBefore ? "page" : "auto", marginTop: pageBreakBefore ? "24px" : undefined }}
     >
       {/* Header */}
       <button
@@ -98,7 +99,7 @@ export default function EvaluationSection({ category, scores, onScore, index }: 
       </button>
 
       {/* Progress bar */}
-      <div className="h-2 bg-muted">
+      <div className="h-2 bg-muted print-hidden">
         <div
           className="h-full transition-all duration-700 relative overflow-hidden"
           style={{
@@ -113,8 +114,7 @@ export default function EvaluationSection({ category, scores, onScore, index }: 
       </div>
 
       {/* Criteria list */}
-      {expanded && (
-        <div>
+      <div className="criteria-body" style={{ display: expanded ? "block" : "none" }}>
           {category.criteria.map((criterion, ci) => {
             const selected = scores[criterion.id] || 0;
             const isEven = ci % 2 === 0;
@@ -162,8 +162,7 @@ export default function EvaluationSection({ category, scores, onScore, index }: 
               </div>
             );
           })}
-        </div>
-      )}
+      </div>
     </div>
   );
 }

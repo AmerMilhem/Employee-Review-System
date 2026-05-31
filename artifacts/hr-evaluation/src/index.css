@@ -227,6 +227,10 @@
   }
 }
 
+@page {
+  margin: 0;
+}
+
 @media print {
   .print-hidden {
     display: none !important;
@@ -234,9 +238,24 @@
   .print-only {
     display: block !important;
   }
-  body {
+  .criteria-body {
+    display: block !important;
+  }
+  body,
+  body * {
     background: white !important;
-    color: black !important;
+    background-color: white !important;
+    background-image: none !important;
+    box-shadow: none !important;
+  }
+  .section-header-gradient,
+  .section-header-gradient *,
+  .section-header-gradient h3,
+  .section-header-gradient span,
+  .section-header-gradient p {
+    color: #000 !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #000 !important;
   }
   .no-print {
     display: none !important;
@@ -244,6 +263,28 @@
   .page-break {
     page-break-before: always;
   }
+}
+
+/* PDF export: force all backgrounds white */
+.pdf-export,
+.pdf-export * {
+  background: white !important;
+  background-color: white !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+.pdf-export .section-header-gradient,
+.pdf-export .section-header-gradient *,
+.pdf-export .section-header-gradient h3,
+.pdf-export .section-header-gradient span,
+.pdf-export .section-header-gradient p {
+  color: #000 !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #000 !important;
+}
+.pdf-export .eval-count-badge {
+  color: #000 !important;
+  border: 1px solid #ccc !important;
 }
 
 /* Smooth transitions */

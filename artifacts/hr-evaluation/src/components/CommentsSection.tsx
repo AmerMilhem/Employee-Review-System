@@ -36,7 +36,7 @@ function TextAreaField({ label, value, placeholder, icon, accentColor, onChange 
           className="w-full px-4 py-3 rounded-2xl border-2 border-border bg-white/70 dark:bg-card/70 text-foreground font-medium placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:bg-white dark:focus:bg-card focus:shadow-[0_0_0_4px_hsl(142,62%,26%,0.1)] transition-all duration-200 text-sm resize-none leading-relaxed"
         />
       </div>
-      <p className="text-[10px] text-muted-foreground text-left font-medium tabular-nums">
+      <p className="text-[10px] text-muted-foreground text-left font-medium tabular-nums print-hidden">
         {value.length} حرف
       </p>
     </div>
@@ -47,7 +47,7 @@ export default function CommentsSection({ comments, onChange }: CommentsSectionP
   const update = (key: keyof Comments) => (val: string) => onChange({ ...comments, [key]: val });
 
   return (
-    <div className="bg-card border border-border/60 rounded-3xl card-shadow overflow-hidden fade-in-up">
+    <div className="bg-card border border-border/60 rounded-3xl card-shadow overflow-hidden fade-in-up" style={{ breakBefore: "page", marginTop: "24px" }}>
       {/* Header */}
       <div className="section-header-gradient px-6 py-5">
         <div className="flex items-center gap-3.5">

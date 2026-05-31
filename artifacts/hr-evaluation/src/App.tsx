@@ -129,17 +129,15 @@ export default function App() {
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Main content */}
           <div className="flex-1 min-w-0 flex flex-col gap-5">
-            <div className="print-hidden">
-              <EmployeeInfoSection info={employeeInfo} onChange={setEmployeeInfo} />
-            </div>
+            <EmployeeInfoSection info={employeeInfo} onChange={setEmployeeInfo} />
             <ProgressBar completed={answeredCriteria} total={totalCriteria} />
 
             {/* Section divider */}
-            <div className="flex items-center gap-4 py-1">
+            <div className="flex items-center gap-4 py-1 mt-6" style={{ breakBefore: "page" }}>
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-              <div className="flex items-center gap-2.5 px-4 py-2 rounded-full border border-border/70 bg-card shadow-sm text-sm font-extrabold text-foreground shrink-0">
+              <div className="flex items-center gap-2.5 px-4 py-2 rounded-full border border-border/70 bg-card shadow-sm text-sm font-extrabold text-foreground shrink-0 whitespace-nowrap">
                 <span>محاور التقييم</span>
-                <span className="text-xs px-2.5 py-0.5 rounded-full text-white font-bold shadow-sm"
+                <span className="eval-count-badge text-xs px-2.5 py-0.5 rounded-full text-white font-bold shadow-sm"
                   style={{ background: "linear-gradient(135deg, hsl(142,65%,24%), hsl(142,55%,36%))" }}>
                   {EVALUATION_CATEGORIES.length} محاور
                 </span>
@@ -147,15 +145,18 @@ export default function App() {
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
             </div>
 
-            {EVALUATION_CATEGORIES.map((category, index) => (
-              <EvaluationSection
-                key={category.id}
-                category={category}
-                scores={scores}
-                onScore={handleScore}
-                index={index}
-              />
-            ))}
+            <div className="eval-sections-container flex flex-col gap-5">
+              {EVALUATION_CATEGORIES.map((category, index) => (
+                <EvaluationSection
+                  key={category.id}
+                  category={category}
+                  scores={scores}
+                  onScore={handleScore}
+                  index={index}
+                  pageBreakBefore={category.id === "communication" || category.id === "quality"}
+                />
+              ))}
+            </div>
 
             <CommentsSection comments={comments} onChange={setComments} />
 

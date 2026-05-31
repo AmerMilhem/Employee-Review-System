@@ -35,7 +35,7 @@ export default function Navbar({ score, onPrint, onReset, onSave, saved }: Navba
 
       {/* ── Company Header Bar ── */}
       <div className="glass border-b border-white/40 dark:border-white/10 shadow-[0_2px_20px_rgba(0,0,0,0.08)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-0 flex items-center justify-between gap-4">
 
           {/* System title */}
           <div className="flex items-center gap-2.5 shrink-0">
@@ -54,7 +54,7 @@ export default function Navbar({ score, onPrint, onReset, onSave, saved }: Navba
           {/* Center: Company identity */}
           <div className="flex items-center justify-center gap-5 sm:gap-10 flex-1">
             <div className="text-right hidden md:block">
-              <p className="font-black text-xs sm:text-sm leading-snug tracking-tight" style={{ color: "hsl(142,62%,24%)", fontFamily: "'Cairo', sans-serif" }}>
+              <p className="font-black text-sm sm:text-base leading-snug tracking-tight" style={{ color: "hsl(142,62%,24%)", fontFamily: "'Cairo', sans-serif" }}>
                 شركة مصانع الزيوت النباتية الأردنية م.ع.م.
               </p>
             </div>
@@ -62,11 +62,11 @@ export default function Navbar({ score, onPrint, onReset, onSave, saved }: Navba
             <div className="shrink-0 relative">
               <div className="absolute inset-0 rounded-full opacity-20 blur-md"
                 style={{ background: "radial-gradient(circle, hsl(142,60%,40%), transparent)" }} />
-              <img src={logo} alt="شعار الشركة" className="relative w-13 h-13 sm:w-14 sm:h-14 object-contain drop-shadow-md" />
+              <img src={logo} alt="شعار الشركة" className="relative w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-md" />
             </div>
 
             <div className="text-left hidden md:block">
-              <p className="font-black text-xs sm:text-sm leading-snug tracking-tight" style={{ color: "hsl(142,62%,24%)", fontFamily: "'Cairo', sans-serif" }}>
+              <p className="font-black text-sm sm:text-base leading-snug tracking-tight" style={{ color: "hsl(142,62%,24%)", fontFamily: "'Cairo', sans-serif" }}>
                 Jordan Vegetable Oil Industries Co. Ltd
               </p>
             </div>
