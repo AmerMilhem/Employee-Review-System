@@ -81,9 +81,10 @@ function Field({ label, value, icon, placeholder, onChange, readOnly = false }: 
 interface HireDatePickerProps {
   value: string;
   onChange: (val: string) => void;
+  disabled?: boolean;
 }
 
-function HireDatePicker({ value, onChange }: HireDatePickerProps) {
+function HireDatePicker({ value, onChange, disabled = false }: HireDatePickerProps) {
   const [open, setOpen] = useState(false);
 
   const selected = value ? new Date(value) : undefined;
@@ -101,11 +102,12 @@ function HireDatePicker({ value, onChange }: HireDatePickerProps) {
         </span>
         تاريخ التعيين
       </label>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={disabled ? false : open} onOpenChange={disabled ? undefined : setOpen}>
         <PopoverTrigger asChild>
           <button
             type="button"
-            className="w-full px-4 py-3 rounded-2xl border-2 text-sm font-medium text-right flex items-center justify-between gap-2 transition-all duration-200 hover:border-primary/40 hover:bg-primary/5 hover:shadow-sm hover:-translate-y-0.5"
+            disabled={disabled}
+            className="w-full px-4 py-3 rounded-2xl border-2 text-sm font-medium text-right flex items-center justify-between gap-2 transition-all duration-200 hover:border-primary/40 hover:bg-primary/5 hover:shadow-sm hover:-translate-y-0.5 disabled:opacity-80 disabled:cursor-default disabled:hover:border-border disabled:hover:bg-white/70 disabled:hover:shadow-none disabled:hover:translate-y-0"
             style={{
               borderColor: open ? "hsl(142,62%,26%)" : "hsl(var(--border))",
               background: open ? "white" : "rgba(255,255,255,0.7)",
@@ -248,11 +250,12 @@ export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProp
           label="المدير المباشر"
           value={info.evaluatorName}
           icon={<UserCheck size={13} />}
-          placeholder="أدخل اسم المدير المباشر"
+          placeholder="يُملأ تلقائياً عند اختيار الموظف"
           onChange={update("evaluatorName")}
+          readOnly={!!info.employeeId}
         />
 
-        <HireDatePicker value={info.hireYear} onChange={update("hireYear")} />
+        <HireDatePicker value={info.hireYear} onChange={update("hireYear")} disabled={!!info.employeeId} />
 
         {/* Evaluation Date */}
         <div className="flex flex-col gap-1.5 group">
