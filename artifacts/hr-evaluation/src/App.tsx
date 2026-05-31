@@ -8,6 +8,7 @@ import SignaturesSection from "./components/SignaturesSection";
 import SendExportPanel from "./components/SendExportPanel";
 import ScoreBreakdownPanel from "./components/ScoreBreakdown";
 import ProgressBar from "./components/ProgressBar";
+import ScoreCircle from "./components/ScoreCircle";
 import { EVALUATION_CATEGORIES, INITIAL_EMPLOYEE_INFO, INITIAL_COMMENTS } from "./data/evaluationData";
 import type { EmployeeInfo, Scores, Comments, ScoreBreakdown } from "./types";
 import { exportToPdf } from "./utils/exportPdf";
@@ -130,6 +131,9 @@ export default function App() {
           {/* Main content */}
           <div className="flex-1 min-w-0 flex flex-col gap-5">
             <EmployeeInfoSection info={employeeInfo} onChange={setEmployeeInfo} />
+            <div className="print-only">
+              <ScoreCircle score={totalScore} />
+            </div>
             <ProgressBar completed={answeredCriteria} total={totalCriteria} />
 
             {/* Section divider */}

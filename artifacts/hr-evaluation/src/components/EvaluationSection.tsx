@@ -152,7 +152,7 @@ export default function EvaluationSection({ category, scores, onScore, index, pa
 
                 {/* Score label chip */}
                 {selected > 0 && (
-                  <div className="mt-3 flex justify-end">
+                  <div className="mt-3 flex justify-end print-hidden">
                     <span className="inline-flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full bg-muted/70">
                       <span className={`w-2 h-2 rounded-full ${getScoreDotColor(selected)}`} />
                       {SCORE_LABELS[selected]}

@@ -9,7 +9,7 @@ interface PrintHeaderProps {
 const GREEN = "hsl(142,62%,22%)";
 const BLACK = "hsl(0,0%,10%)";
 
-export default function PrintHeader(_props: PrintHeaderProps) {
+export default function PrintHeader({ employeeInfo: _employeeInfo, totalScore: _totalScore }: PrintHeaderProps) {
 
   return (
     <div className="print-only mb-4" style={{ fontFamily: "'Cairo', 'Tajawal', sans-serif" }}>
@@ -68,7 +68,7 @@ export default function PrintHeader(_props: PrintHeaderProps) {
           نموذج تقييم الأداء السنوي
         </h1>
         <p style={{ fontSize: "15px", color: BLACK, margin: 0, fontWeight: 700, letterSpacing: "0.8px" }}>
-           2026
+          2026
         </p>
       </div>
 

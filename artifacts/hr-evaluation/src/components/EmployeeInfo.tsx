@@ -287,7 +287,7 @@ export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProp
             </select>
 
             <div
-              className="shrink-0 px-4 py-3 rounded-2xl font-extrabold text-sm text-white shadow-sm transition-all duration-200 hover:scale-105 hover:shadow-md cursor-default"
+              className="eval-year-badge shrink-0 px-4 py-3 rounded-2xl font-extrabold text-sm text-white shadow-sm transition-all duration-200 hover:scale-105 hover:shadow-md cursor-default"
               style={{ background: "linear-gradient(135deg, hsl(142,65%,24%), hsl(142,55%,36%))" }}
             >
               2026
