@@ -27,6 +27,16 @@ function getCategoryAvg(scores: Record<string, number>, criteria: { id: string }
   return vals.reduce((a, b) => a + b, 0) / vals.length;
 }
 
+function getContribColor(contrib: number, maxWeight: number) {
+  if (contrib === 0) return "text-muted-foreground";
+  const ratio = contrib / maxWeight;
+  if (ratio >= 0.9) return "text-green-600";
+  if (ratio >= 0.8) return "text-emerald-600";
+  if (ratio >= 0.7) return "text-amber-600";
+  if (ratio >= 0.6) return "text-orange-500";
+  return "text-rose-500";
+}
+
 function getAvgBadgeStyle(avg: number) {
   if (avg >= 9) return "bg-green-100 text-green-700 border border-green-300";
   if (avg >= 7) return "bg-emerald-100 text-emerald-700 border border-emerald-300";
@@ -43,6 +53,10 @@ export default function EvaluationSection({ category, scores, onScore, index, pa
   const total = category.criteria.length;
   const pct = total > 0 ? (answered / total) * 100 : 0;
   const isComplete = pct === 100;
+
+  const sumScores = category.criteria.reduce((acc, c) => acc + (scores[c.id] || 0), 0);
+  const maxSum = total * 10;
+  const weightedContrib = maxSum > 0 ? (category.weight * sumScores) / maxSum : 0;
 
   return (
     <div
@@ -146,6 +160,14 @@ export default function EvaluationSection({ category, scores, onScore, index, pa
               </div>
             );
           })}
+
+        {/* Weighted score result */}
+        <div className="px-6 py-3 border-t border-border/40 bg-muted/20 flex items-center justify-between gap-2">
+          <span className="text-xs text-muted-foreground font-medium">المجموع</span>
+          <span className={`text-sm font-extrabold ${getContribColor(weightedContrib, category.weight)}`}>
+            {weightedContrib.toFixed(2)}
+          </span>
+        </div>
       </div>
     </div>
   );

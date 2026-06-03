@@ -41,18 +41,15 @@ function saveDraft(data: DraftData) {
 
 function computeBreakdown(scores: Scores): { breakdown: ScoreBreakdown[]; totalScore: number } {
   const breakdown: ScoreBreakdown[] = EVALUATION_CATEGORIES.map((cat) => {
-    const vals = cat.criteria.map((c) => scores[c.id] || 0).filter((v) => v > 0);
-    const rawAvg = vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
-    const weightedScore = (rawAvg / 10) * cat.weight;
+    const sumScores = cat.criteria.reduce((acc, c) => acc + (scores[c.id] || 0), 0);
+    const maxSum = cat.criteria.length * 10;
+    const weightedScore = maxSum > 0 ? (cat.weight * sumScores) / maxSum : 0;
+    const answeredVals = cat.criteria.map((c) => scores[c.id] || 0).filter((v) => v > 0);
+    const rawAvg = answeredVals.length > 0 ? answeredVals.reduce((a, b) => a + b, 0) / answeredVals.length : 0;
     return { categoryId: cat.id, title: cat.title, weight: cat.weight, rawAvg, weightedScore };
   });
 
-  const total = breakdown.reduce((acc, b) => acc + b.weightedScore, 0);
-  const answeredWeight = breakdown
-    .filter((b) => b.rawAvg > 0)
-    .reduce((acc, b) => acc + b.weight, 0);
-
-  const totalScore = answeredWeight > 0 ? (total / answeredWeight) * 100 : 0;
+  const totalScore = breakdown.reduce((acc, b) => acc + b.weightedScore, 0);
 
   return { breakdown, totalScore };
 }
