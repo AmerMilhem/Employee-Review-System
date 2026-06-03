@@ -95,19 +95,6 @@ export default function ScoreBreakdown({ breakdown, totalScore }: ScoreBreakdown
         })}
       </div>
 
-      {/* Legend */}
-      <div className="px-4 pb-4">
-        <div className="rounded-2xl bg-muted/40 p-3.5 space-y-2">
-          <p className="text-xs font-extrabold text-muted-foreground mb-2.5 tracking-wider uppercase">مقياس التقدير</p>
-          {LEGEND.map((s) => (
-            <div key={s.range} className="flex items-center gap-2">
-              <div className={`w-2.5 h-2.5 rounded-full shrink-0 ${s.color}`} />
-              <span className="text-xs font-semibold text-foreground">{s.label}</span>
-              <span className="text-xs text-muted-foreground mr-auto font-medium">{s.range}</span>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }

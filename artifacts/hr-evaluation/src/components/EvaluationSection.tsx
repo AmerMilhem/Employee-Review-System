@@ -20,13 +20,6 @@ function getScoreStyle(score: number, selected: boolean) {
   return "border-2 border-rose-500 bg-gradient-to-br from-rose-500 to-red-500 text-white shadow-lg shadow-rose-500/35 scale-110";
 }
 
-function getScoreDotColor(score: number) {
-  if (score >= 9) return "bg-green-500";
-  if (score >= 7) return "bg-emerald-400";
-  if (score >= 5) return "bg-amber-400";
-  if (score >= 3) return "bg-orange-400";
-  return "bg-rose-500";
-}
 
 function getCategoryAvg(scores: Record<string, number>, criteria: { id: string }[]): number {
   const vals = criteria.map((c) => scores[c.id] || 0).filter((v) => v > 0);
@@ -150,15 +143,6 @@ export default function EvaluationSection({ category, scores, onScore, index, pa
                   </div>
                 </div>
 
-                {/* Score label chip */}
-                {selected > 0 && (
-                  <div className="mt-3 flex justify-end print-hidden">
-                    <span className="inline-flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full bg-muted/70">
-                      <span className={`w-2 h-2 rounded-full ${getScoreDotColor(selected)}`} />
-                      {SCORE_LABELS[selected]}
-                    </span>
-                  </div>
-                )}
               </div>
             );
           })}
