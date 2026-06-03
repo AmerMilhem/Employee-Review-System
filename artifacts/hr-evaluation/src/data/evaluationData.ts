@@ -39,7 +39,7 @@ export const EVALUATION_CATEGORIES: EvaluationCategory[] = [
   {
     id: "discipline",
     title: "الالتزام والانضباط",
-    weight: 15,
+    weight: 10,
     criteria: [
       { id: "disc_1", label: "الالتزام بالدوام الرسمي" },
       { id: "disc_2", label: "الالتزام بالإجراءات والسياسات" },
@@ -60,7 +60,7 @@ export const EVALUATION_CATEGORIES: EvaluationCategory[] = [
   {
     id: "innovation",
     title: "الابتكار والتطوير",
-    weight: 10,
+    weight: 15,
     criteria: [
       { id: "innov_1", label: "المبادرة" },
       { id: "innov_2", label: "تقديم أفكار تطويرية" },
