@@ -146,6 +146,13 @@ export default function App() {
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
             </div>
 
+            <div className="px-4 py-3 rounded-2xl border border-border/70 bg-muted/40 text-sm text-foreground text-center">
+              يُرجى العلم أن مقياس التقييم من{" "}
+              <span className="font-extrabold text-rose-600">1 : ضعيف</span>
+              {" "}إلى{" "}
+              <span className="font-extrabold text-green-700">10 : ممتاز</span>
+            </div>
+
             <div className="eval-sections-container flex flex-col gap-5">
               {EVALUATION_CATEGORIES.map((category, index) => (
                 <EvaluationSection
