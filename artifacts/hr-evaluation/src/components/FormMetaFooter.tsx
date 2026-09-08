@@ -1,6 +1,7 @@
 import type { EmployeeInfo } from "../types";
 
 export const FORM_NUMBER = "QQAA001F.1";
+const FORM_DATE = "5-09-2026";
 
 interface FormMetaFooterProps {
   employeeInfo: EmployeeInfo;
@@ -9,17 +10,8 @@ interface FormMetaFooterProps {
   className?: string;
 }
 
-function formatEvalDate(info: EmployeeInfo): string {
-  const { day, month, year } = info;
-  if (day && month && year) {
-    return `${day.padStart(2, "0")}/${month.padStart(2, "0")}/${year}`;
-  }
-  const today = new Date();
-  return today.toLocaleDateString("en-GB");
-}
-
-export default function FormMetaFooter({ employeeInfo, printFixed = false, className = "" }: FormMetaFooterProps) {
-  const date = formatEvalDate(employeeInfo);
+export default function FormMetaFooter({ employeeInfo: _employeeInfo, printFixed = false, className = "" }: FormMetaFooterProps) {
+  const date = FORM_DATE;
 
   if (printFixed) {
     return (
