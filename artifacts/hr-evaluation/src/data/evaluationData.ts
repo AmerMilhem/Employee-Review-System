@@ -83,19 +83,23 @@ export const SCORE_LABELS: Record<number, string> = {
   10: "ممتاز",
 };
 
-const _today = new Date();
+export function createInitialEmployeeInfo() {
+  const today = new Date();
 
-export const INITIAL_EMPLOYEE_INFO = {
-  employeeId: "",
-  name: "",
-  department: "",
-  jobTitle: "",
-  evaluatorName: "",
-  year: String(_today.getFullYear()),
-  month: String(_today.getMonth() + 1).padStart(2, "0"),
-  day: String(_today.getDate()).padStart(2, "0"),
-  hireYear: "",
-};
+  return {
+    employeeId: "",
+    name: "",
+    department: "",
+    jobTitle: "",
+    evaluatorName: "",
+    year: String(today.getFullYear()),
+    month: String(today.getMonth() + 1).padStart(2, "0"),
+    day: String(today.getDate()).padStart(2, "0"),
+    hireYear: "",
+  };
+}
+
+export const INITIAL_EMPLOYEE_INFO = createInitialEmployeeInfo();
 
 export const INITIAL_COMMENTS = {
   strengths: "",

@@ -10,7 +10,7 @@ import ScoreBreakdownPanel from "./components/ScoreBreakdown";
 import ProgressBar from "./components/ProgressBar";
 import ScoreCircle from "./components/ScoreCircle";
 import FormMetaFooter from "./components/FormMetaFooter";
-import { EVALUATION_CATEGORIES, INITIAL_EMPLOYEE_INFO, INITIAL_COMMENTS } from "./data/evaluationData";
+import { EVALUATION_CATEGORIES, createInitialEmployeeInfo, INITIAL_COMMENTS } from "./data/evaluationData";
 import type { EmployeeInfo, Scores, Comments, ScoreBreakdown } from "./types";
 import { exportToPdf } from "./utils/exportPdf";
 
@@ -60,7 +60,7 @@ export default function App() {
 
   const [employeeInfo, setEmployeeInfo] = useState<EmployeeInfo>(() => {
     const draft = loadDraft();
-    return draft?.employeeInfo ?? INITIAL_EMPLOYEE_INFO;
+    return draft?.employeeInfo ?? createInitialEmployeeInfo();
   });
 
   const [scores, setScores] = useState<Scores>(() => {
@@ -92,7 +92,7 @@ export default function App() {
 
   const handleReset = useCallback(() => {
     if (window.confirm("هل أنت متأكد من إعادة تعيين جميع بيانات التقييم؟")) {
-      setEmployeeInfo(INITIAL_EMPLOYEE_INFO);
+      setEmployeeInfo(createInitialEmployeeInfo());
       setScores({});
       setComments(INITIAL_COMMENTS);
       localStorage.removeItem(STORAGE_KEY);
