@@ -266,7 +266,8 @@ export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProp
           <div className="flex items-center gap-2">
             <select
               value={info.month}
-              onChange={(e) => handleMonthChange(e.target.value)}
+              disabled
+              aria-label="شهر التقييم"
               className={`flex-1 ${selectClass}`}
             >
               <option value="" disabled>Month</option>
@@ -277,7 +278,8 @@ export default function EmployeeInfoSection({ info, onChange }: EmployeeInfoProp
 
             <select
               value={info.day}
-              onChange={(e) => update("day")(e.target.value)}
+              disabled
+              aria-label="يوم التقييم"
               className={`w-20 text-center ${selectClass}`}
             >
               <option value="" disabled>Day</option>
