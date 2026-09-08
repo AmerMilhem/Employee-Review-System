@@ -152,7 +152,7 @@ export default function App() {
             <div className="px-4 py-3 rounded-2xl border border-border/70 bg-muted/40 text-sm text-foreground text-center">
               يُرجى العلم أن مقياس التقييم من{" "}
               <span className="font-extrabold text-rose-600">1 : ضعيف</span>
-              {" "}إلى{" "}
+              {" "}و{" "}
               <span className="font-extrabold text-green-700">10 : ممتاز</span>
             </div>
 
