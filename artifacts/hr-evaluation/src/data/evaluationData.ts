@@ -28,7 +28,7 @@ export const EVALUATION_CATEGORIES: EvaluationCategory[] = [
   {
     id: "quality",
     title: "الجودة والسلامة",
-    weight: 20,
+    weight: 15,
     criteria: [
       { id: "qual_1", label: "الالتزام بالجودة" },
       { id: "qual_2", label: "الالتزام بتعليمات السلامة والصحة المهنية" },
@@ -39,7 +39,7 @@ export const EVALUATION_CATEGORIES: EvaluationCategory[] = [
   {
     id: "discipline",
     title: "الالتزام والانضباط",
-    weight: 10,
+    weight: 20,
     criteria: [
       { id: "disc_1", label: "الالتزام بالدوام الرسمي" },
       { id: "disc_2", label: "الالتزام بالإجراءات والسياسات" },
@@ -50,7 +50,7 @@ export const EVALUATION_CATEGORIES: EvaluationCategory[] = [
   {
     id: "communication",
     title: "التواصل والعمل الجماعي",
-    weight: 10,
+    weight: 15,
     criteria: [
       { id: "comm_1", label: "العمل الجماعي" },
       { id: "comm_2", label: "التواصل الفعال مع الآخرين" },
@@ -60,7 +60,7 @@ export const EVALUATION_CATEGORIES: EvaluationCategory[] = [
   {
     id: "innovation",
     title: "الابتكار والتطوير",
-    weight: 15,
+    weight: 5,
     criteria: [
       { id: "innov_1", label: "المبادرة" },
       { id: "innov_2", label: "تقديم أفكار تطويرية" },
