@@ -9,6 +9,7 @@ import SendExportPanel from "./components/SendExportPanel";
 import ScoreBreakdownPanel from "./components/ScoreBreakdown";
 import ProgressBar from "./components/ProgressBar";
 import ScoreCircle from "./components/ScoreCircle";
+import FormMetaFooter from "./components/FormMetaFooter";
 import { EVALUATION_CATEGORIES, INITIAL_EMPLOYEE_INFO, INITIAL_COMMENTS } from "./data/evaluationData";
 import type { EmployeeInfo, Scores, Comments, ScoreBreakdown } from "./types";
 import { exportToPdf } from "./utils/exportPdf";
@@ -121,6 +122,8 @@ export default function App() {
         saved={saved}
       />
 
+      <FormMetaFooter employeeInfo={employeeInfo} printFixed />
+
       <main className="pt-[5.5rem] pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <PrintHeader employeeInfo={employeeInfo} totalScore={totalScore} />
 
@@ -161,24 +164,31 @@ export default function App() {
                   scores={scores}
                   onScore={handleScore}
                   index={index}
-                  pageBreakBefore={category.id === "communication" || category.id === "quality"}
+                  pageBreakBefore={
+                    category.id === "competence" ||
+                    category.id === "communication" ||
+                    category.id === "quality"
+                  }
+                  keepTogether={category.id === "competence"}
                 />
               ))}
             </div>
 
-            <CommentsSection comments={comments} onChange={setComments} />
+            <div className="print-page-6 flex flex-col gap-5" style={{ breakBefore: "page", marginTop: "24px" }}>
+              <CommentsSection comments={comments} onChange={setComments} />
 
-            <SendExportPanel
-              employeeInfo={employeeInfo}
-              scores={scores}
-              comments={comments}
-              breakdown={breakdown}
-              totalScore={totalScore}
-            />
+              <SendExportPanel
+                employeeInfo={employeeInfo}
+                scores={scores}
+                comments={comments}
+                breakdown={breakdown}
+                totalScore={totalScore}
+              />
 
-            <SignaturesSection />
+              <SignaturesSection />
 
-           
+              <FormMetaFooter employeeInfo={employeeInfo} className="print-hidden" />
+            </div>
           </div>
 
           {/* Sidebar */}

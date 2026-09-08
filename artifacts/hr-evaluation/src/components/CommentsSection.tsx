@@ -47,7 +47,7 @@ export default function CommentsSection({ comments, onChange }: CommentsSectionP
   const update = (key: keyof Comments) => (val: string) => onChange({ ...comments, [key]: val });
 
   return (
-    <div className="bg-card border border-border/60 rounded-3xl card-shadow overflow-hidden fade-in-up" style={{ breakBefore: "page", marginTop: "24px" }}>
+    <div className="bg-card border border-border/60 rounded-3xl card-shadow overflow-hidden fade-in-up print-comments-section">
       {/* Header */}
       <div className="section-header-gradient px-6 py-5">
         <div className="flex items-center gap-3.5">
@@ -61,7 +61,7 @@ export default function CommentsSection({ comments, onChange }: CommentsSectionP
         </div>
       </div>
 
-      <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-5 print-comments-grid">
         <TextAreaField
           label="نقاط القوة والإنجازات"
           value={comments.strengths}

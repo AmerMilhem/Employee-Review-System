@@ -9,7 +9,7 @@ const SIGNATORIES = [
 
 export default function SignaturesSection() {
   return (
-    <div className="bg-card border border-border rounded-2xl card-shadow overflow-hidden fade-in-up">
+    <div className="bg-card border border-border rounded-2xl card-shadow overflow-hidden fade-in-up print-signatures-section print-keep-together">
       {/* Header */}
       <div className="px-6 py-4 border-b border-border"
         style={{ background: "linear-gradient(135deg, hsl(142,60%,28%) 0%, hsl(142,55%,35%) 100%)" }}>
@@ -48,7 +48,7 @@ export default function SignaturesSection() {
         </div>
 
         {/* Note */}
-        <div className="mt-4 p-3 rounded-xl bg-muted/50 border border-border">
+        <div className="mt-4 p-3 rounded-xl bg-muted/50 border border-border print-ack-note">
           <p className="text-xs text-muted-foreground text-center leading-relaxed">
             بالتوقيع أدناه، يُقرّ جميع الأطراف بأن هذا التقييم قد تم مراجعته ومناقشته وأنه يعكس بدقة أداء الموظف خلال فترة التقييم المذكورة.
           </p>

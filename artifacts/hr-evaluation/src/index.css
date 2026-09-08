@@ -228,18 +228,60 @@
 }
 
 @page {
-  margin: 0;
+  margin: 10mm 10mm 14mm 10mm;
+}
+
+.print-page-footer {
+  display: none;
 }
 
 @media print {
+  html,
+  body {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  #pdf-content {
+    min-height: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
   main {
     padding-top: 0 !important;
+    padding-bottom: 8px !important;
+    margin-bottom: 0 !important;
+  }
+  .print-page-footer {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 4px 12px;
+    border-top: 1px solid #ccc;
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: "Cairo", "Tajawal", sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
   .print-hidden {
     display: none !important;
   }
   .print-only {
     display: block !important;
+  }
+  .print-page-footer.print-only {
+    display: flex !important;
   }
   .criteria-body {
     display: block !important;
@@ -276,6 +318,45 @@
   }
   .page-break {
     page-break-before: always;
+  }
+  .print-keep-together {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    overflow: visible !important;
+  }
+  .print-page-6 {
+    break-before: page;
+    page-break-before: always;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .print-comments-section .section-header-gradient {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+  .print-comments-grid {
+    padding: 12px !important;
+    gap: 10px !important;
+  }
+  .print-comments-section textarea {
+    min-height: 64px !important;
+    height: 64px !important;
+    padding: 8px 10px !important;
+  }
+  .print-signatures-section {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    overflow: visible !important;
+  }
+  .print-signatures-section .print-ack-note {
+    break-before: avoid;
+    page-break-before: avoid;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .print-page-6 > * {
+    break-after: avoid;
+    page-break-after: avoid;
   }
 }
 

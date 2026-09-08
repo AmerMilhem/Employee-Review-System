@@ -9,6 +9,7 @@ interface EvaluationSectionProps {
   onScore: (criterionId: string, score: number) => void;
   index: number;
   pageBreakBefore?: boolean;
+  keepTogether?: boolean;
 }
 
 function getScoreStyle(score: number, selected: boolean) {
@@ -46,7 +47,7 @@ function getAvgBadgeStyle(avg: number) {
   return "bg-muted text-muted-foreground";
 }
 
-export default function EvaluationSection({ category, scores, onScore, index, pageBreakBefore }: EvaluationSectionProps) {
+export default function EvaluationSection({ category, scores, onScore, index, pageBreakBefore, keepTogether }: EvaluationSectionProps) {
   const [expanded, setExpanded] = useState(false);
   const avg = getCategoryAvg(scores, category.criteria);
   const answered = category.criteria.filter((c) => scores[c.id]).length;
@@ -60,8 +61,12 @@ export default function EvaluationSection({ category, scores, onScore, index, pa
 
   return (
     <div
-      className="bg-card border border-border/60 rounded-3xl card-shadow overflow-hidden fade-in-up"
-      style={{ animationDelay: `${index * 0.06}s`, breakBefore: pageBreakBefore ? "page" : "auto", marginTop: pageBreakBefore ? "24px" : undefined }}
+      className={`bg-card border border-border/60 rounded-3xl card-shadow overflow-hidden fade-in-up${keepTogether ? " print-keep-together" : ""}`}
+      style={{
+        animationDelay: `${index * 0.06}s`,
+        breakBefore: pageBreakBefore ? "page" : "auto",
+        marginTop: pageBreakBefore ? "24px" : undefined,
+      }}
     >
       {/* Header */}
       <button
