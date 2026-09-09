@@ -283,6 +283,25 @@
   .print-page-footer.print-only {
     display: flex !important;
   }
+  /* Brand bar must fit the printable width (A4 210mm - 20mm @page margins
+     = ~718px @96dpi). At the on-screen 18px/100px sizing the row needs
+     ~803px and, being centre-justified with nowrap text, it overflowed
+     and was clipped on BOTH edges. Scale it down for print only — the
+     html-to-image PDF path scales the whole page, so it must not shrink. */
+  .print-brand-bar {
+    padding: 6px 8px !important;
+    gap: 8px !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+  .print-brand-name {
+    font-size: 15px !important;
+    min-width: 0 !important;
+  }
+  .print-brand-logo {
+    width: 76px !important;
+    height: 76px !important;
+  }
   .criteria-body {
     display: block !important;
   }

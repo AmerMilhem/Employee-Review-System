@@ -16,6 +16,7 @@ export default function PrintHeader({ employeeInfo: _employeeInfo, totalScore: _
 
       {/* ── Brand bar: mirrors the Navbar layout ── */}
       <div
+        className="print-brand-bar"
         style={{
           display: "flex",
           alignItems: "center",
@@ -27,7 +28,7 @@ export default function PrintHeader({ employeeInfo: _employeeInfo, totalScore: _
         }}
       >
         {/* Arabic name – right */}
-        <p style={{
+        <p className="print-brand-name" style={{
           color: GREEN,
           fontWeight: 900,
           fontSize: "18px",
@@ -44,11 +45,12 @@ export default function PrintHeader({ employeeInfo: _employeeInfo, totalScore: _
         <img
           src={logo}
           alt="شعار الشركة"
+          className="print-brand-logo"
           style={{ width: "100px", height: "100px", objectFit: "contain", display: "block", flexShrink: 0 }}
         />
 
         {/* English name – left */}
-        <p style={{
+        <p className="print-brand-name" style={{
           color: GREEN,
           fontWeight: 900,
           fontSize: "18px",
